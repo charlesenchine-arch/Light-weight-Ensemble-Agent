@@ -37,6 +37,18 @@ def test_readme_demo_is_present_and_lightweight():
     assert demo.stat().st_size < 1_000_000
 
 
+def test_pypi_workflow_uses_scoped_oidc_without_secrets():
+    root = Path(__file__).resolve().parents[1]
+    workflow = (root / ".github" / "workflows" / "publish.yml").read_text(encoding="utf-8")
+    assert "workflow_dispatch:" in workflow
+    assert "environment:\n      name: pypi" in workflow
+    assert "id-token: write" in workflow
+    assert "pypa/gh-action-pypi-publish@release/v1" in workflow
+    assert "username:" not in workflow
+    assert "password:" not in workflow
+    assert "PYPI_API_TOKEN" not in workflow
+
+
 def test_slash_commands_include_undo_retry():
     assert command_line("/undo") == "/undo"
     assert command_line("/retry") == "/retry"

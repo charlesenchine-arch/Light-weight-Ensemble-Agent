@@ -297,7 +297,11 @@ interrupts, workspace boundaries, skills, and the interactive composer.
 - [ ] Linux/macOS native installer
 - [x] Local-model transport through Ollama
 - [ ] MCP tool-server support
-- [ ] Signed releases and PyPI trusted publishing
+- [x] Tokenless, approval-gated PyPI publishing workflow
+- [ ] Publish `lea-agent` on PyPI (one-time trusted-publisher setup remains)
+
+Maintainers can follow the [PyPI publishing guide](docs/publishing.md) to connect
+the repository with no long-lived API token.
 
 Have an idea? Start a [discussion](https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent/discussions)
 or read [CONTRIBUTING.md](CONTRIBUTING.md).
