@@ -42,12 +42,30 @@ $ lea run --budget 10cny "Fix the flaky auth tests and explain the cause"
 
 ## Quick start
 
-### Install from GitHub
+### One-command install
+
+macOS / Linux:
+
+```bash
+curl -LsSf https://raw.githubusercontent.com/charlesenchine-arch/Light-weight-Ensemble-Agent/main/install.sh | sh
+```
+
+Windows PowerShell:
+
+```powershell
+irm https://raw.githubusercontent.com/charlesenchine-arch/Light-weight-Ensemble-Agent/main/install.ps1 | iex
+```
+
+The installer bootstraps the official `uv` tool manager when needed, downloads the
+pinned v0.3.0 wheel, verifies its SHA-256 digest, and installs LEA in isolation without
+administrator access. [Inspect the scripts and alternatives before running them](docs/install.md).
+
+### Already use pipx?
 
 With [pipx](https://pipx.pypa.io/) installed:
 
 ```bash
-pipx install git+https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent.git
+pipx install git+https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent.git@v0.3.0
 ```
 
 Or install for development:
@@ -311,7 +329,7 @@ interrupts, workspace boundaries, skills, and the interactive composer.
 - [x] Per-stage cost estimates and machine-readable route explanations
 - [ ] Recorded terminal demo
 - [x] Reproducible catalog cost benchmark
-- [ ] Linux/macOS native installer
+- [x] Verified macOS/Linux and Windows one-command installers
 - [x] Local-model transport through Ollama
 - [x] Opt-in stdio MCP tools with per-workspace trust
 - [x] Tokenless, approval-gated PyPI publishing workflow

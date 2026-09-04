@@ -3,6 +3,8 @@ include README.md
 include CHANGELOG.md
 include CONTRIBUTING.md
 include SECURITY.md
+include install.sh
+include install.ps1
 include agentflow.yaml
 include .env.example
 recursive-include assets *.svg *.png *.gif

@@ -6,6 +6,11 @@ versioning.
 
 ## [Unreleased]
 
+### Added
+
+- Checksum-verified, one-command installers for macOS, Linux, and Windows using
+  isolated `uv` tool environments.
+
 ## [0.3.0] - 2026-09-05
 
 ### Added

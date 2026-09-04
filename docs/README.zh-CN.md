@@ -14,8 +14,25 @@ LEA（Light-weight Ensemble Agent）是一个本地编程 Agent。它不会把�
 
 ## 一分钟安装
 
+macOS / Linux：
+
 ```bash
-pipx install git+https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent.git
+curl -LsSf https://raw.githubusercontent.com/charlesenchine-arch/Light-weight-Ensemble-Agent/main/install.sh | sh
+```
+
+Windows PowerShell：
+
+```powershell
+irm https://raw.githubusercontent.com/charlesenchine-arch/Light-weight-Ensemble-Agent/main/install.ps1 | iex
+```
+
+安装器会在需要时安装官方 `uv`，下载固定的 `v0.3.0` wheel，核对 SHA-256 后放入隔离
+环境，不需要管理员权限。安全敏感环境可以先阅读[安装器说明和源码](install.md)。
+
+已经配置 pipx 的用户也可以：
+
+```bash
+pipx install git+https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent.git@v0.3.0
 ```
 
 也可以从源码安装：

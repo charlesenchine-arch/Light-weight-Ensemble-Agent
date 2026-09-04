@@ -81,13 +81,30 @@ def _print_keys() -> None:
     console.print(table)
 
 
+def _print_version() -> None:
+    skin = theme.current()
+    console.print(
+        f"[bold {skin.accent}]LEA[/] [{skin.muted}]{__version__}[/]  "
+        f"[italic {skin.text}]Light-weight Ensemble Agent[/]"
+    )
+
+
 @app.callback(invoke_without_command=True)
 def _root(
     ctx: typer.Context,
     workspace: Optional[Path] = typer.Option(None, "--workspace", "-w"),
     mode: str = typer.Option("balanced", "--mode", "-m"),
+    show_version: bool = typer.Option(
+        False,
+        "--version",
+        is_eager=True,
+        help="Print version and exit",
+    ),
 ) -> None:
     """LEA — Light-weight Ensemble Agent. 无参数进入对话，有子命令则执行。"""
+    if show_version:
+        _print_version()
+        raise typer.Exit()
     if ctx.invoked_subcommand is not None:
         return
     from agentflow.repl import start_repl
@@ -98,8 +115,7 @@ def _root(
 @app.command()
 def version() -> None:
     """Print version."""
-    skin = theme.current()
-    console.print(f"[bold {skin.accent}]LEA[/] [{skin.muted}]{__version__}[/]  [italic {skin.text}]Light-weight Ensemble Agent[/]")
+    _print_version()
 
 
 @app.command("init")

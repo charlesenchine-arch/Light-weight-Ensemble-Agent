@@ -7,6 +7,15 @@ def test_bare_lea_unchanged():
     assert rewrite_argv(["lea"]) == ["lea"]
 
 
+def test_version_flag_matches_version_command():
+    runner = CliRunner()
+    flag = runner.invoke(app, ["--version"])
+    command = runner.invoke(app, ["version"])
+    assert flag.exit_code == command.exit_code == 0
+    assert "0.3.0" in flag.output
+    assert flag.output == command.output
+
+
 def test_subcommand_unchanged():
     assert rewrite_argv(["lea", "doctor"]) == ["lea", "doctor"]
     assert rewrite_argv(["lea", "cost"]) == ["lea", "cost"]
