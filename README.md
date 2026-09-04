@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/lea-terminal.svg" alt="LEA cost-aware multi-model coding agent" width="820">
+  <img src="assets/lea-demo.gif" alt="LEA routes planning, local coding, independent review, and live steering inside a fixed budget" width="900">
 </p>
 
 <p align="center">

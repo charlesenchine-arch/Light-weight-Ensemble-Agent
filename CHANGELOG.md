@@ -6,6 +6,10 @@ versioning.
 
 ## [Unreleased]
 
+### Added
+
+- A compact, reproducible terminal walkthrough for the README and social sharing.
+
 ## [0.2.0] - 2026-09-04
 
 ### Added

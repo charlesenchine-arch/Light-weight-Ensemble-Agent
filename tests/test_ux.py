@@ -28,6 +28,15 @@ def test_composer_dialog_chrome():
     assert "发送" in dialog_footer()
 
 
+def test_readme_demo_is_present_and_lightweight():
+    root = Path(__file__).resolve().parents[1]
+    readme = (root / "README.md").read_text(encoding="utf-8")
+    demo = root / "assets" / "lea-demo.gif"
+    assert "assets/lea-demo.gif" in readme
+    assert demo.read_bytes().startswith((b"GIF87a", b"GIF89a"))
+    assert demo.stat().st_size < 1_000_000
+
+
 def test_slash_commands_include_undo_retry():
     assert command_line("/undo") == "/undo"
     assert command_line("/retry") == "/retry"

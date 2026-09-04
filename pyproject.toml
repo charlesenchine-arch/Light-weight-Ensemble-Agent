@@ -30,6 +30,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "build>=1.2", "ruff>=0.9"]
+demo = ["pillow>=11.0"]
 
 [project.urls]
 Homepage = "https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent"

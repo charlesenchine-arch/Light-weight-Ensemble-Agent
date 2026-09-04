@@ -1,7 +1,7 @@
 # LEA — 轻量多模型编程 Agent
 
 <p align="center">
-  <img src="../assets/lea-terminal.svg" alt="LEA 按预算调度多模型" width="820">
+  <img src="../assets/lea-demo.gif" alt="LEA 在固定预算内调度规划、本地编程、独立审核与实时打断" width="900">
 </p>
 
 **把钱花在真正需要智能的地方。**
