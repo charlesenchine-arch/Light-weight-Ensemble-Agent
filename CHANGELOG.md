@@ -6,6 +6,8 @@ versioning.
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-09-04
+
 ### Added
 
 - Cost-aware model routing across planning, design, implementation, review, and fixes.
@@ -16,4 +18,5 @@ versioning.
   OpenRouter.
 - Workspace boundary policy, reversible file edits, session ledgers, and reusable skills.
 
-[Unreleased]: https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent/commits/main
+[Unreleased]: https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent/releases/tag/v0.1.0
