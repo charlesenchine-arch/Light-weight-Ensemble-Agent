@@ -31,6 +31,7 @@ app = typer.Typer(
 COMMANDS = {
     "version",
     "init",
+    "benchmark",
     "models",
     "use",
     "route",
@@ -287,6 +288,68 @@ def _render_pipeline(pipeline) -> None:
     )
     for note in pipeline.notes:
         console.print(theme.warn_line(note) if "风险" in note or "WARNING" in note or "BUDGET" in note else theme.dim_line(note))
+
+
+@app.command("benchmark")
+def benchmark_cmd(
+    mode: str = typer.Option("balanced", "--mode", "-m", help="budget|fast|balanced|quality"),
+    baseline: str = typer.Option("grok-4.6", "--baseline", help="Single-model baseline"),
+    as_json: bool = typer.Option(False, "--json", help="Emit machine-readable JSON"),
+) -> None:
+    """Compare catalog-estimated LEA routing cost with a single-model baseline."""
+    import json
+
+    from agentflow.benchmark import benchmark_summary, run_catalog_benchmark
+
+    if mode not in MODES:
+        console.print(theme.err_line(f"mode must be {', '.join(MODES)}"))
+        raise typer.Exit(1)
+    try:
+        rows = run_catalog_benchmark(mode=mode, baseline_model=baseline)  # type: ignore[arg-type]
+    except KeyError as exc:
+        console.print(theme.err_line(str(exc)))
+        raise typer.Exit(1)
+    summary = benchmark_summary(rows)
+
+    if as_json:
+        payload = {
+            "method": "catalog-estimate",
+            "mode": mode,
+            "baseline_model": baseline,
+            "cases": [row.as_dict() for row in rows],
+            "summary": summary,
+        }
+        console.print(json.dumps(payload, ensure_ascii=False, indent=2), markup=False)
+        return
+
+    table = theme.themed_table(f"cost benchmark  ·  LEA {mode} vs {baseline}")
+    table.add_column("Case")
+    table.add_column("LEA route")
+    table.add_column("Providers", justify="right")
+    table.add_column("LEA", justify="right")
+    table.add_column("Baseline", justify="right")
+    table.add_column("Saved", justify="right")
+    for row in rows:
+        table.add_row(
+            row.case,
+            " → ".join(row.route),
+            str(row.providers),
+            f"${row.lea_usd:.3f}",
+            f"${row.baseline_usd:.3f}",
+            f"{row.savings_percent:.1f}%",
+        )
+    console.print(table)
+    console.print(
+        theme.ok_line(
+            f"total  ${summary['lea_usd']:.3f} vs ${summary['baseline_usd']:.3f}"
+            f"  ·  saved {summary['savings_percent']:.1f}%"
+        )
+    )
+    console.print(
+        theme.dim_line(
+            "Catalog estimate only: identical role token counts; no API calls and no quality claim."
+        )
+    )
 
 
 @app.command()

@@ -6,4 +6,5 @@ include SECURITY.md
 include agentflow.yaml
 include .env.example
 recursive-include assets *.svg
+recursive-include benchmarks *.md
 recursive-include docs *.md

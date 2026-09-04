@@ -32,3 +32,14 @@ def test_init_creates_templates_without_overwriting(tmp_path):
     assert second.exit_code == 0
     assert config.read_text(encoding="utf-8") == "mode: fast\n"
     assert "kept existing" in second.output
+
+
+def test_benchmark_json_is_machine_readable():
+    import json
+
+    runner = CliRunner()
+    result = runner.invoke(app, ["benchmark", "--json"])
+    assert result.exit_code == 0
+    payload = json.loads(result.output)
+    assert payload["method"] == "catalog-estimate"
+    assert payload["summary"]["savings_percent"] > 50

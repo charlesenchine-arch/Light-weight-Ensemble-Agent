@@ -316,6 +316,7 @@ def build_pipeline(
     max_steps: dict[str, int] | None = None,
     skip_review: bool = False,
     skip_design: bool = False,
+    pins: dict[str, str] | None = None,
 ) -> Pipeline:
     flags = available if available is not None else available_providers()
     steps = max_steps or {}
@@ -323,7 +324,7 @@ def build_pipeline(
     stages: list[Stage] = []
 
     def add(role: Role, tools: str, reason: str, **pick_kw) -> Stage:
-        model = pick_model(role, mode, flags, **pick_kw)
+        model = pick_model(role, mode, flags, pins=pins, **pick_kw)
         stage = Stage(
             role=role,
             model=model,
@@ -352,7 +353,7 @@ def build_pipeline(
             reason = "Frontier planner (hard/architecture) — coder stays cheap"
         else:
             reason = "High-end planner; cheap model will execute this spec"
-        model = pick_model("plan", plan_mode, flags)
+        model = pick_model("plan", plan_mode, flags, pins=pins)
         stages.append(
             Stage(
                 role="plan",
@@ -387,7 +388,7 @@ def build_pipeline(
         if "ui-design" in task.domains or "frontend" in task.domains:
             prefer = ("frontend", "ui", "visual", "bulk-code")
             reason = "Cheap UI implementer (Gemini Flash / DS Flash)"
-        model = pick_model("code", mode, flags, prefer_strengths=prefer)
+        model = pick_model("code", mode, flags, prefer_strengths=prefer, pins=pins)
         coder = Stage(
             role="code",
             model=model,

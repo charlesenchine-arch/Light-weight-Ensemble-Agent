@@ -118,6 +118,31 @@ LEA's default policy is simple:
 
 > **Spend on the plan. Save on the implementation. Diversify the review.**
 
+### Reproducible cost benchmark
+
+Using four fixed coding scenarios and identical role-level token assumptions, LEA's
+`balanced` route is estimated to cost **55.7% less** than assigning every stage to
+`grok-4.6`:
+
+| Scenario | LEA estimate | Single-model estimate | Estimated saving |
+| --- | ---: | ---: | ---: |
+| Backend feature | $0.0810 | $0.1868 | 56.6% |
+| Frontend UI | $0.1263 | $0.2140 | 41.0% |
+| Hard architecture | $0.0810 | $0.1868 | 56.6% |
+| Bug fix | $0.0042 | $0.0720 | 94.2% |
+| **Total** | **$0.2925** | **$0.6596** | **55.7%** |
+
+Reproduce it locally—no API key or model call required:
+
+```bash
+lea benchmark
+lea benchmark --json
+lea benchmark --baseline claude-sonnet-5
+```
+
+This is a catalog price-model benchmark, not a claim that model quality is equal.
+The complete methodology and limitations are in [benchmarks/README.md](benchmarks/README.md).
+
 ## How it works
 
 ```mermaid
@@ -239,7 +264,8 @@ interrupts, workspace boundaries, skills, and the interactive composer.
 ## Roadmap
 
 - [ ] Per-stage budget reservations and route explanations
-- [ ] Recorded terminal demo and benchmark suite
+- [ ] Recorded terminal demo
+- [x] Reproducible catalog cost benchmark
 - [ ] Linux/macOS native installer
 - [ ] Local-model transport through Ollama
 - [ ] MCP tool-server support

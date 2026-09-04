@@ -53,6 +53,20 @@ lea run --dry-run --budget 5cny "重构支付流水线"
 `--dry-run` 只展示任务分类、模式和模型组合，不调用 API。正式运行时，每次 API
 请求之前还会进行一次预算检查：必要时缩小输出上限，余额不足时直接停止请求。
 
+## 可复现成本基准
+
+四个固定场景、相同角色 token 假设下，`balanced` 路由的目录估算总成本为
+`$0.2925`，所有阶段都使用 `grok-4.6` 的基线为 `$0.6596`，预计节省 **55.7%**。
+
+```bash
+lea benchmark
+lea benchmark --json
+lea benchmark --baseline claude-sonnet-5
+```
+
+该结果只比较公开目录中的价格模型，不宣称不同模型的输出质量相同。完整方法和限制见
+[基准说明](../benchmarks/README.md)。
+
 ## 四种模式
 
 | 模式 | 适合 | 行为 |
