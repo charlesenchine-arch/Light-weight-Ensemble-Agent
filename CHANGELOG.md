@@ -10,6 +10,7 @@ versioning.
 
 - Machine-readable `lea models --json` catalog with official pricing sources and
   verification dates.
+- Machine-readable `lea route --budget ... --json` reports for CI and editor tooling.
 - Gemini 3.8 Flash as the current Google coding and design default.
 
 ### Changed

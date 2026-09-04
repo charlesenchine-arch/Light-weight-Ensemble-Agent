@@ -58,3 +58,29 @@ def test_models_json_is_auditable_and_hides_retired_aliases():
     assert payload["catalog_as_of"] == "2026-09-04"
     assert "gemini-3.8-flash" in ids
     assert "grok-4-fast" not in ids
+
+
+def test_route_json_explains_budget_and_stages(tmp_path):
+    import json
+
+    runner = CliRunner()
+    result = runner.invoke(
+        app,
+        [
+            "route",
+            "Add pagination to the users API",
+            "--budget",
+            "1usd",
+            "--workspace",
+            str(tmp_path),
+            "--json",
+        ],
+        env={"XAI_API_KEY": "test-key"},
+    )
+    assert result.exit_code == 0
+    payload = json.loads(result.output)
+    assert payload["budget_usd"] == 1.0
+    assert payload["remaining_usd"] >= 0
+    assert payload["classification"]["intent"] == "implement"
+    assert payload["stages"]
+    assert all(stage["estimated_usd"] >= 0 for stage in payload["stages"])

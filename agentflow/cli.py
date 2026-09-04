@@ -241,29 +241,75 @@ def route_cmd(
     task: str = typer.Argument(..., help="What you want done"),
     mode: str = typer.Option("balanced", "--mode", "-m", help="budget|fast|balanced|quality"),
     workspace: Optional[Path] = typer.Option(None, "--workspace", "-w"),
+    budget: Optional[str] = typer.Option(None, "--budget", "-b", help="e.g. 0.5usd / 10cny"),
+    as_json: bool = typer.Option(False, "--json", help="Emit machine-readable JSON"),
 ) -> None:
     """Show which models would run, without calling any API."""
     settings = _settings(workspace, mode, None)
-    _preview_route(task, settings)
+    if budget:
+        from agentflow.money import parse_money, to_usd
+
+        parsed = parse_money(budget, settings.currency)
+        if not parsed:
+            console.print(theme.err_line("budget format: 0.5 / 0.5usd / 10cny"))
+            raise typer.Exit(1)
+        amount, currency = parsed
+        settings.max_cost_usd = to_usd(amount, currency)
+    _preview_route(task, settings, as_json=as_json)
 
 
-def _preview_route(task: str, settings) -> None:
+def _preview_route(task: str, settings, *, as_json: bool = False) -> None:
     """Render the real budget-fitted route without making provider calls."""
+    import json
+
     from agentflow.budget import fit_budget
+    from agentflow.catalog import CATALOG_AS_OF, estimate_stage
 
     classification = heuristic_classify(task)
+    flags = available_providers()
     plan = fit_budget(
         classification,
         settings.max_cost_usd,
+        available=flags,
         preferred_mode=settings.mode,
     )
     pipeline = build_pipeline(
         classification,
         plan.mode,
+        available=flags,
         max_steps=settings.max_steps,
         skip_review=settings.skip_review or plan.skip_review,
         skip_design=settings.skip_design or plan.skip_design,
     )
+    if as_json:
+        payload = {
+            "task": task,
+            "catalog_as_of": CATALOG_AS_OF,
+            "requested_mode": settings.mode,
+            "selected_mode": pipeline.mode,
+            "budget_usd": settings.max_cost_usd,
+            "estimated_usd": pipeline.estimated_usd,
+            "remaining_usd": round(settings.max_cost_usd - pipeline.estimated_usd, 6),
+            "classification": classification.model_dump(mode="json"),
+            "stages": [
+                {
+                    "role": stage.role,
+                    "model": stage.model.id,
+                    "provider": stage.model.provider,
+                    "estimated_usd": estimate_stage(stage.model, stage.role),
+                    "reason": stage.reason,
+                }
+                for stage in pipeline.stages
+            ],
+            "adjustments": {
+                "skip_review": plan.skip_review,
+                "skip_design": plan.skip_design,
+                "max_review_rounds": plan.max_review_rounds,
+                "warnings": plan.warnings,
+            },
+        }
+        typer.echo(json.dumps(payload, ensure_ascii=False, indent=2))
+        return
     _render_pipeline(pipeline)
     console.print(
         f"\n[dim]Heuristic classify (no API). Estimated typical cost ≈ "

@@ -99,7 +99,12 @@ Preview the exact route without calling an API:
 
 ```bash
 lea run --dry-run --budget 0.25usd "Refactor the payment pipeline"
+lea route --budget 10cny --json "Add OAuth login"
 ```
+
+The JSON route report includes the local classification, chosen model for every
+stage, estimated stage cost, budget adjustments, and remaining headroom. It is safe
+to call from editor extensions and CI because it never sends the task to a model.
 
 ## Why LEA?
 
@@ -266,7 +271,7 @@ interrupts, workspace boundaries, skills, and the interactive composer.
 
 ## Roadmap
 
-- [ ] Per-stage budget reservations and route explanations
+- [x] Per-stage cost estimates and machine-readable route explanations
 - [ ] Recorded terminal demo
 - [x] Reproducible catalog cost benchmark
 - [ ] Linux/macOS native installer
