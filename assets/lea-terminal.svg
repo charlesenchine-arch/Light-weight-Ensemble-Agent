@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">LEA — Light-weight Ensemble Agent</title>
+  <desc id="desc">A terminal-style preview of cost-aware model routing from planning through review.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#11131a"/><stop offset="1" stop-color="#191522"/></linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffc857"/><stop offset="1" stop-color="#ff8c42"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#000" flood-opacity=".35"/></filter>
+  </defs>
+  <rect width="1200" height="520" rx="34" fill="#f3efe8"/><rect x="45" y="35" width="1110" height="450" rx="22" fill="url(#bg)" filter="url(#shadow)"/><rect x="45" y="35" width="1110" height="58" rx="22" fill="#242631"/><rect x="45" y="72" width="1110" height="21" fill="#242631"/>
+  <circle cx="80" cy="64" r="8" fill="#ff6b6b"/><circle cx="106" cy="64" r="8" fill="#ffd166"/><circle cx="132" cy="64" r="8" fill="#57cc99"/>
+  <text x="600" y="70" fill="#aaa7b5" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="17" text-anchor="middle">lea — budget-aware agent</text>
+  <text x="92" y="148" fill="#ffc857" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="34" font-weight="700">LEA</text><text x="178" y="148" fill="#f4f0fa" font-family="Inter, Segoe UI, sans-serif" font-size="24" font-weight="600">Spend intelligence where it matters.</text>
+  <text x="92" y="188" fill="#9a96a8" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="17">$ lea run --budget 1usd &quot;ship the feature safely&quot;</text>
+  <g font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="18">
+    <text x="106" y="246" fill="#aaa7b5">PLAN</text><rect x="210" y="226" width="340" height="27" rx="8" fill="#302d3a"/><rect x="210" y="226" width="282" height="27" rx="8" fill="url(#accent)"/><text x="575" y="246" fill="#f4f0fa">strong reasoning</text><text x="1015" y="246" fill="#ffd166" text-anchor="end">$0.18</text>
+    <text x="106" y="301" fill="#aaa7b5">CODE</text><rect x="210" y="281" width="340" height="27" rx="8" fill="#302d3a"/><rect x="210" y="281" width="154" height="27" rx="8" fill="#62d6a6"/><text x="575" y="301" fill="#f4f0fa">fast implementer</text><text x="1015" y="301" fill="#62d6a6" text-anchor="end">$0.07</text>
+    <text x="106" y="356" fill="#aaa7b5">REVIEW</text><rect x="210" y="336" width="340" height="27" rx="8" fill="#302d3a"/><rect x="210" y="336" width="205" height="27" rx="8" fill="#8b7cf6"/><text x="575" y="356" fill="#f4f0fa">independent provider</text><text x="1015" y="356" fill="#a99df8" text-anchor="end">$0.11</text>
+  </g>
+  <line x1="92" y1="400" x2="1060" y2="400" stroke="#35333f"/><text x="92" y="441" fill="#f4f0fa" font-family="Inter, Segoe UI, sans-serif" font-size="18" font-weight="600">✓ reviewed</text><text x="306" y="441" fill="#aaa7b5" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="17">3 models · 2 providers</text><text x="1060" y="441" fill="#ffc857" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="21" font-weight="700" text-anchor="end">$0.36 / $1.00</text>
+</svg>

@@ -1,0 +1,26 @@
+# Agent-flow default config. Override per-project by dropping this file
+# in the workspace root, or pass --mode / --max-cost on the CLI.
+
+mode: balanced          # budget | fast | balanced | quality
+language: auto          # auto | zh | en
+max_cost_usd: 3.0
+max_steps:
+  router: 1
+  research: 8
+  plan: 10
+  design: 10
+  code: 20
+  review: 8
+  fix: 16
+shell_policy: allow     # allow | ask | deny
+confirm_dangerous: true
+session_dir: .agentflow/sessions
+max_code_review_rounds: 3   # 编程 ↔ 审核
+max_trial_rounds: 3         # 仅 --trial 时
+human_trial: false          # 默认跳过人类试用；策略放行代替人工点头
+allow_paths: []             # 额外放行的根目录，也可用 `agentflow allow add`
+llm_classify: false         # true 才用模型分类；默认启发式，省一轮 token
+harvest_skills: true        # 仅在有改文件时 harvest
+compact_tool_history: true  # 压缩旧 tool 输出，避免对话越来越贵
+currency: cny               # usd | cny | eur | gbp | jpy | hkd
+ask_budget: true            # lea 启动时询问本次预算

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and ideas
+    url: https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent/discussions
+    about: Ask for help or discuss an idea before turning it into an issue.
+  - name: Security vulnerability
+    url: https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent/security/advisories/new
+    about: Report security problems privately.

@@ -1,0 +1,23 @@
+mode: balanced
+language: auto
+max_cost_usd: 3.0
+max_steps:
+  router: 1
+  research: 8
+  plan: 10
+  design: 10
+  code: 20
+  review: 8
+  fix: 16
+shell_policy: allow
+confirm_dangerous: true
+session_dir: .agentflow/sessions
+max_code_review_rounds: 3
+max_trial_rounds: 3
+human_trial: false
+allow_paths: []
+llm_classify: false
+harvest_skills: true
+compact_tool_history: true
+currency: cny
+ask_budget: true
