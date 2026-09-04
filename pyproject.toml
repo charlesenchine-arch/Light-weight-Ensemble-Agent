@@ -1,6 +1,6 @@
 [project]
 name = "lea-agent"
-version = "0.1.0"
+version = "0.1.1"
 description = "LEA — Light-weight Ensemble Agent"
 readme = "README.md"
 requires-python = ">=3.11"
