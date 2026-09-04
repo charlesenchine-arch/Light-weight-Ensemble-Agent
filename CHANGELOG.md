@@ -6,9 +6,14 @@ versioning.
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-09-05
+
 ### Added
 
 - A compact, reproducible terminal walkthrough for the README and social sharing.
+- Optional stdio MCP tools with explicit tool selection, per-workspace configuration
+  trust, budget-aware schemas, bounded results, and cancellation.
+- A tokenless, approval-gated PyPI trusted-publishing workflow.
 
 ## [0.2.0] - 2026-09-04
 
@@ -45,7 +50,8 @@ versioning.
   OpenRouter.
 - Workspace boundary policy, reversible file edits, session ledgers, and reusable skills.
 
-[Unreleased]: https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent/releases/tag/v0.1.0

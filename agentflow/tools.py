@@ -6,10 +6,15 @@ import os
 import re
 import subprocess
 import time
+from functools import partial
 from pathlib import Path
-from typing import Any, Callable
+from typing import TYPE_CHECKING, Any, Callable
 
 from agentflow.workspace import IGNORE_DIRS, SKIP_SUFFIXES, Workspace
+
+if TYPE_CHECKING:
+    from agentflow.config import MCPServerSettings
+    from agentflow.types import Role
 
 MAX_READ = 24_000
 MAX_GREP_HITS = 40
@@ -248,10 +253,23 @@ TOOL_SCHEMAS: list[dict[str, Any]] = [
 
 
 class Toolbelt:
-    def __init__(self, workspace: Workspace, shell_policy: str = "allow", library=None):
+    def __init__(
+        self,
+        workspace: Workspace,
+        shell_policy: str = "allow",
+        library=None,
+        *,
+        mcp_servers: dict[str, "MCPServerSettings"] | None = None,
+        role: "Role" = "code",
+    ):
         self.ws = workspace
         self.shell_policy = shell_policy
         self.library = library
+        self.mcp = None
+        if mcp_servers:
+            from agentflow.mcp_client import MCPToolRegistry
+
+            self.mcp = MCPToolRegistry(workspace, mcp_servers, role)
         self.changed: list[str] = []
         self.saved_skills: list[str] = []
         self.backups: dict[str, str | None] = {}
@@ -290,13 +308,24 @@ class Toolbelt:
         return read + ["write_file", "edit_file", "run_shell", "save_skill"]
 
     def schemas(self, level: str) -> list[dict[str, Any]]:
-        return openai_tools(self.names(level))
+        schemas = openai_tools(self.names(level))
+        if level != "none" and self.mcp is not None:
+            schemas.extend(self.mcp.schemas())
+        return schemas
+
+    @property
+    def mcp_warnings(self) -> list[str]:
+        if self.mcp is None:
+            return []
+        return list(self.mcp.warnings)
 
     def run(self, name: str, arguments: dict[str, Any]) -> tuple[str, bool]:
         """Return (result, is_finish)."""
         if name == "finish":
             return self._finish(arguments), True
         handler = self._handlers.get(name)
+        if handler is None and self.mcp is not None and self.mcp.handles(name):
+            handler = partial(self.mcp.call, name)
         if not handler:
             return f"Unknown tool: {name}", False
         try:

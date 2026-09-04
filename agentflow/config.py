@@ -8,7 +8,7 @@ import yaml
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field
 
-from agentflow.types import Mode, ProviderName
+from agentflow.types import Mode, ProviderName, Role
 
 ENV_KEYS: dict[ProviderName, tuple[str, ...]] = {
     "xai": ("XAI_API_KEY",),
@@ -21,6 +21,18 @@ ENV_KEYS: dict[ProviderName, tuple[str, ...]] = {
     "ollama": ("OLLAMA_MODEL",),
     "openrouter": ("OPENROUTER_API_KEY",),
 }
+
+
+class MCPServerSettings(BaseModel):
+    """One explicitly configured stdio MCP server."""
+
+    command: str = Field(min_length=1)
+    args: list[str] = Field(default_factory=list)
+    cwd: str = "."
+    env: dict[str, str] = Field(default_factory=dict)
+    tools: list[str] = Field(default_factory=list)
+    stages: list[Role] = Field(default_factory=lambda: ["plan", "code", "fix"])
+    timeout_seconds: float = Field(default=30.0, ge=1.0, le=300.0)
 
 
 class Settings(BaseModel):
@@ -52,6 +64,7 @@ class Settings(BaseModel):
     skip_review: bool = False
     skip_design: bool = False
     ask_budget: bool = True
+    mcp_servers: dict[str, MCPServerSettings] = Field(default_factory=dict)
     workspace: Path = Field(default_factory=lambda: Path.cwd())
 
     def steps_for(self, role: str) -> int:

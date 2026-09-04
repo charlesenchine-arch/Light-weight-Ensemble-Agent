@@ -124,6 +124,22 @@ lea benchmark --baseline claude-sonnet-5
 `lea models` 和 `lea use <role> <model>` 固定模型。使用 `lea models --json` 可导出包含
 官方价格来源、核验日期和生命周期状态的机器可读目录。
 
+## 可选 MCP 工具
+
+LEA 可以把本地 stdio MCP server 中明确选中的工具开放给规划、编程和审核阶段。MCP
+依赖是可选的，不会让基础安装变重：
+
+```bash
+pip install -e ".[mcp]"
+lea mcp list
+lea mcp trust project-tools
+```
+
+server 在 `agentflow.yaml` 中配置，但项目配置本身不能启动进程；用户还必须把完全一致的
+命令、参数、环境变量名、工具白名单和阶段授权到项目外的信任库。配置发生变化后授权自动
+失效。工具 schema 会计入调用前的输入预算，结果进入同一套压缩历史，中断当前轮也会关闭
+stdio 调用。完整示例与风险边界见 [MCP 配置和威胁模型](mcp.md)。
+
 ## 安全边界
 
 工作区内的常规文件和命令操作自动放行；工作区外路径默认拒绝；明显的系统破坏性命令

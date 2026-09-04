@@ -154,7 +154,13 @@ def run_role(
     skills=None,
     catalog: str = "",
 ) -> RoleOutcome:
-    belt = Toolbelt(workspace, shell_policy=settings.shell_policy, library=library)
+    belt = Toolbelt(
+        workspace,
+        shell_policy=settings.shell_policy,
+        library=library,
+        mcp_servers=settings.mcp_servers,
+        role=stage.role,
+    )
     snap_kind = "review" if stage.role == "review" else "compact"
     snapshot = workspace.snapshot(snap_kind)
     messages = [
@@ -172,6 +178,9 @@ def run_role(
         ChatMessage(role="user", content=task),
     ]
     tools = belt.schemas(stage.tools)
+    if emit:
+        for warning in belt.mcp_warnings:
+            emit("warn", warning)
     max_tokens = 8_000 if stage.role in {"code", "fix"} else 3_000
 
     last_text = ""

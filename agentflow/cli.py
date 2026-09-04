@@ -44,11 +44,14 @@ COMMANDS = {
     "ask",
     "skills",
     "allow",
+    "mcp",
 }
 skills_app = typer.Typer(help="本机 toolbox skills")
 allow_app = typer.Typer(help="项目外路径白名单")
+mcp_app = typer.Typer(help="显式授权和检查项目 MCP servers")
 app.add_typer(skills_app, name="skills")
 app.add_typer(allow_app, name="allow")
+app.add_typer(mcp_app, name="mcp")
 theme.load_skin_from_prefs()
 console = theme.styled_console()
 
@@ -780,6 +783,78 @@ def allow_remove(
     settings = _settings(workspace, None, None)
     target = remove_allow_path(path, user=user, workspace=settings.workspace)
     console.print(f"removed {path.resolve()}\n[dim]{target}[/dim]")
+
+
+@mcp_app.command("list")
+def mcp_list(
+    workspace: Optional[Path] = typer.Option(None, "--workspace", "-w"),
+) -> None:
+    """列出项目配置的 MCP servers、工具与授权状态。"""
+    from agentflow.mcp_client import is_trusted
+
+    settings = _settings(workspace, None, None)
+    table = theme.themed_table("MCP servers")
+    table.add_column("Server")
+    table.add_column("Trust")
+    table.add_column("Tools")
+    table.add_column("Stages")
+    table.add_column("Command")
+    for name, server in settings.mcp_servers.items():
+        trusted = is_trusted(settings.workspace, name, server)
+        table.add_row(
+            name,
+            "trusted" if trusted else "blocked",
+            ", ".join(server.tools) or "—",
+            ", ".join(server.stages),
+            " ".join([server.command, *server.args]),
+        )
+    if settings.mcp_servers:
+        console.print(table)
+    else:
+        console.print(theme.dim_line("No MCP servers configured in agentflow.yaml"))
+
+
+@mcp_app.command("trust")
+def mcp_trust(
+    name: str,
+    workspace: Optional[Path] = typer.Option(None, "--workspace", "-w"),
+    yes: bool = typer.Option(False, "--yes", "-y", help="Skip the interactive confirmation"),
+) -> None:
+    """授权当前项目中一个配置完全匹配的 MCP server。"""
+    from agentflow.mcp_client import trust_server
+
+    settings = _settings(workspace, None, None)
+    server = settings.mcp_servers.get(name)
+    if server is None:
+        console.print(theme.err_line(f"MCP server not configured: {name}"))
+        raise typer.Exit(1)
+    details = (
+        f"command  {' '.join([server.command, *server.args])}\n"
+        f"cwd      {server.cwd}\n"
+        f"env      {', '.join(sorted(server.env)) or '—'}\n"
+        f"tools    {', '.join(server.tools) or '—'}\n"
+        f"stages   {', '.join(server.stages)}"
+    )
+    console.print(theme.panel(details, title=f"trust MCP · {name}"))
+    if not yes and not typer.confirm("Trust this exact configuration?"):
+        raise typer.Abort()
+    path = trust_server(settings.workspace, name, server)
+    console.print(theme.ok_line(f"trusted {name}"))
+    console.print(theme.dim_line(f"approval stored outside the project: {path}"))
+
+
+@mcp_app.command("revoke")
+def mcp_revoke(
+    name: str,
+    workspace: Optional[Path] = typer.Option(None, "--workspace", "-w"),
+) -> None:
+    """撤销当前项目中一个 MCP server 的全部历史授权。"""
+    from agentflow.mcp_client import revoke_server
+
+    settings = _settings(workspace, None, None)
+    path, count = revoke_server(settings.workspace, name)
+    console.print(theme.ok_line(f"revoked {name} ({count} approval{'s' if count != 1 else ''})"))
+    console.print(theme.dim_line(str(path)))
 
 
 def rewrite_argv(argv: list[str]) -> list[str]:

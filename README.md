@@ -118,6 +118,7 @@ Most coding agents optimize for quality or latency. LEA optimizes the whole run:
 | Budget | Cost shown after the run | Route fitted before the run; every call guarded |
 | Interruption | Wait for the active request | Cancel the HTTP call or local process and steer |
 | Provider lock-in | One API | xAI, Anthropic, OpenAI, Gemini, DeepSeek, Kimi, Qwen, OpenRouter |
+| Tool ecosystem | Built-ins only | Explicitly trusted, namespaced stdio MCP tools |
 
 LEA's default policy is simple:
 
@@ -249,6 +250,22 @@ lea use code deepseek-v4-pro
 lea use review claude-sonnet-5
 ```
 
+## Opt-in MCP tools
+
+LEA can expose an explicit allowlist of tools from local stdio MCP servers without
+coupling tool choice to model routing. Install the optional client, configure a
+server, and approve the exact command outside the repository:
+
+```bash
+pip install -e ".[mcp]"
+lea mcp list
+lea mcp trust project-tools
+```
+
+MCP schemas count toward the preflight input budget, results enter the same compacted
+tool history, and interruption closes the active stdio call. A changed server
+configuration loses trust automatically. See the [configuration and threat model](docs/mcp.md).
+
 ## Workspace safety
 
 LEA automatically permits normal file and shell operations inside the selected
@@ -296,7 +313,7 @@ interrupts, workspace boundaries, skills, and the interactive composer.
 - [x] Reproducible catalog cost benchmark
 - [ ] Linux/macOS native installer
 - [x] Local-model transport through Ollama
-- [ ] MCP tool-server support
+- [x] Opt-in stdio MCP tools with per-workspace trust
 - [x] Tokenless, approval-gated PyPI publishing workflow
 - [ ] Publish `lea-agent` on PyPI (one-time trusted-publisher setup remains)
 

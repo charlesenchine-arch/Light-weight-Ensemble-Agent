@@ -29,7 +29,7 @@ workflow.
 1. Confirm CI is green for the release tag and that the GitHub Release contains
    the matching wheel and source archive.
 2. Open **Actions → Publish to PyPI → Run workflow**.
-3. Enter the exact existing tag, such as `v0.2.0`.
+3. Enter the exact existing tag, such as `v0.3.0`.
 4. Review and approve the `pypi` environment deployment.
 5. Confirm the package and attestations appear at
    <https://pypi.org/project/lea-agent/>.

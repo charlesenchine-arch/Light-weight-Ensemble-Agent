@@ -21,3 +21,4 @@ harvest_skills: true
 compact_tool_history: true
 currency: cny
 ask_budget: true
+mcp_servers: {}

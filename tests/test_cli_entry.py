@@ -11,6 +11,7 @@ def test_subcommand_unchanged():
     assert rewrite_argv(["lea", "doctor"]) == ["lea", "doctor"]
     assert rewrite_argv(["lea", "cost"]) == ["lea", "cost"]
     assert rewrite_argv(["lea", "run", "x"]) == ["lea", "run", "x"]
+    assert rewrite_argv(["lea", "mcp", "list"]) == ["lea", "mcp", "list"]
     assert rewrite_argv(["lea", "-m", "fast"]) == ["lea", "-m", "fast"]
 
 
@@ -84,3 +85,22 @@ def test_route_json_explains_budget_and_stages(tmp_path):
     assert payload["classification"]["intent"] == "implement"
     assert payload["stages"]
     assert all(stage["estimated_usd"] >= 0 for stage in payload["stages"])
+
+
+def test_mcp_list_shows_configured_server_as_blocked(tmp_path):
+    (tmp_path / "agentflow.yaml").write_text(
+        """
+mcp_servers:
+  docs:
+    command: python
+    args: [docs_server.py]
+    tools: [search_docs]
+""".lstrip(),
+        encoding="utf-8",
+    )
+    runner = CliRunner()
+    result = runner.invoke(app, ["mcp", "list", "--workspace", str(tmp_path)])
+    assert result.exit_code == 0
+    assert "docs" in result.output
+    assert "blocked" in result.output
+    assert "search_docs" in result.output

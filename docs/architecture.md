@@ -58,6 +58,13 @@ process is created.
 Write and edit tools retain an in-memory before-image for `/undo`. This is a convenience
 feature, not a replacement for Git.
 
+Optional stdio MCP tools join the same schema list only after the user approves an
+exact, per-workspace server fingerprint outside the repository. Selected tool names
+are namespaced, schemas participate in request-budget estimation, and tool results use
+the normal bounded and compacted history path. MCP calls receive path/command argument
+checks as defense in depth; the trusted server process itself remains the security
+boundary. See `docs/mcp.md` for the full threat model.
+
 ## Cancellation
 
 The interactive prompt runs separately from the active turn. A normal message can be
@@ -72,6 +79,7 @@ has released the queue lock.
 - Add OpenAI-compatible base URLs in `agentflow/providers/openai_compat.py`.
 - Add role prompts in `agentflow/agent/prompts.py`.
 - Add guarded tools in `agentflow/tools.py`.
+- Add stdio MCP configuration and trust handling in `agentflow/mcp_client.py`.
 - Add routing policy in `agentflow/router.py` and `agentflow/budget.py`.
 
 Any new provider or tool should include unit tests that do not require live credentials.
