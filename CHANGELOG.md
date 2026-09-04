@@ -6,6 +6,8 @@ versioning.
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-09-04
+
 ### Added
 
 - Opt-in Ollama transport for local implementation and fixes with zero hosted API
@@ -39,6 +41,7 @@ versioning.
   OpenRouter.
 - Workspace boundary policy, reversible file edits, session ledgers, and reusable skills.
 
-[Unreleased]: https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent/releases/tag/v0.1.0
