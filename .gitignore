@@ -9,7 +9,7 @@ __pycache__/
 .ruff_cache/
 .agentflow/sessions/
 dist/
-release-dist/
+release-dist*/
 build/
 .coverage
 htmlcov/

@@ -37,6 +37,8 @@ pip install -e ".[dev]"
 复制 `.env.example` 为 `.env`，至少填写一个供应商 API Key，然后在任意项目目录运行：
 
 ```bash
+lea init
+# 将 .env.example 复制为 .env，并填写 Key
 lea
 ```
 

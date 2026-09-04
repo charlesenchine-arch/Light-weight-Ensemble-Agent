@@ -76,6 +76,13 @@ XAI_API_KEY=your_key_here
 # DEEPSEEK_API_KEY=...
 ```
 
+When installed with pipx, generate the templates in your project first:
+
+```bash
+lea init
+cp .env.example .env  # Windows PowerShell: Copy-Item .env.example .env
+```
+
 Then open a terminal in any repository:
 
 ```bash

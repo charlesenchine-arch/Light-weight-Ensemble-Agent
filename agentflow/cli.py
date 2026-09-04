@@ -30,6 +30,7 @@ app = typer.Typer(
 
 COMMANDS = {
     "version",
+    "init",
     "models",
     "use",
     "route",
@@ -95,6 +96,39 @@ def version() -> None:
     """Print version."""
     skin = theme.current()
     console.print(f"[bold {skin.accent}]LEA[/] [{skin.muted}]{__version__}[/]  [italic {skin.text}]Light-weight Ensemble Agent[/]")
+
+
+@app.command("init")
+def init_cmd(
+    workspace: Optional[Path] = typer.Option(None, "--workspace", "-w"),
+) -> None:
+    """Create safe starter configuration in a project without overwriting files."""
+    from importlib.resources import files
+
+    root = (workspace or Path.cwd()).resolve()
+    if not root.is_dir():
+        console.print(theme.err_line(f"workspace does not exist: {root}"))
+        raise typer.Exit(1)
+
+    templates = {
+        ".env.example": files("agentflow").joinpath("env.example"),
+        "agentflow.yaml": files("agentflow").joinpath("defaults.yaml"),
+    }
+    created: list[str] = []
+    kept: list[str] = []
+    for name, resource in templates.items():
+        target = root / name
+        if target.exists():
+            kept.append(name)
+            continue
+        target.write_text(resource.read_text(encoding="utf-8"), encoding="utf-8")
+        created.append(name)
+
+    if created:
+        console.print(theme.ok_line("created  " + ", ".join(created)))
+    if kept:
+        console.print(theme.dim_line("kept existing  " + ", ".join(kept)))
+    console.print(theme.dim_line("next: copy .env.example to .env, add one API key, then run lea"))
 
 
 def _print_vendor_models() -> None:

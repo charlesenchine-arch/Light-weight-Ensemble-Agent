@@ -49,7 +49,7 @@ build-backend = "setuptools.build_meta"
 include = ["agentflow*"]
 
 [tool.setuptools.package-data]
-agentflow = ["defaults.yaml"]
+agentflow = ["defaults.yaml", "env.example"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
