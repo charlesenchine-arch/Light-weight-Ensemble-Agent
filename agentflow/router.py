@@ -17,14 +17,14 @@ from agentflow.types import Mode, ModelSpec, Pipeline, ProviderName, Role, Stage
 # Preferred model ids per (role, mode). Cross-vendor review is applied later.
 PREFERENCES: dict[Role, dict[Mode, list[str]]] = {
     "router": {
-        "budget": ["gpt-5.6-luna", "qwen3.7-flash", "deepseek-v4-flash", "grok-build-0.1", "claude-haiku-4.5"],
-        "fast": ["gpt-5.6-luna", "qwen3.7-flash", "deepseek-v4-flash", "grok-build-0.1"],
-        "balanced": ["gpt-5.6-luna", "claude-haiku-4.5", "qwen3.7-flash", "grok-4.3"],
+        "budget": ["ollama-local", "gpt-5.6-luna", "qwen3.7-flash", "deepseek-v4-flash", "grok-build-0.1"],
+        "fast": ["ollama-local", "gpt-5.6-luna", "qwen3.7-flash", "deepseek-v4-flash"],
+        "balanced": ["gpt-5.6-luna", "ollama-local", "claude-haiku-4.5", "qwen3.7-flash", "grok-4.3"],
         "quality": ["grok-4.3", "grok-4.6", "claude-sonnet-5"],
     },
     "research": {
-        "budget": ["deepseek-v4-flash", "gpt-5.6-luna", "qwen3.7-flash", "grok-4.3"],
-        "fast": ["gpt-5.6-luna", "grok-4.3"],
+        "budget": ["ollama-local", "deepseek-v4-flash", "gpt-5.6-luna", "qwen3.7-flash"],
+        "fast": ["ollama-local", "gpt-5.6-luna", "grok-4.3"],
         "balanced": ["grok-4.3", "gpt-5.6-terra", "kimi-k3"],
         "quality": ["grok-4.6", "claude-sonnet-5", "kimi-k3", "qwen3.8-max"],
     },
@@ -44,10 +44,11 @@ PREFERENCES: dict[Role, dict[Mode, list[str]]] = {
     # Coding burns most tokens — keep it on flash/budget models.
     # The planner already made the expensive decisions.
     "code": {
-        "budget": ["deepseek-v4-flash", "qwen3.7-flash", "gemini-3.8-flash", "grok-build-0.1", "kimi-k2.7-code"],
-        "fast": ["deepseek-v4-flash", "qwen3.7-flash", "gemini-3.8-flash", "kimi-k2.7-code-highspeed", "grok-build-0.1"],
+        "budget": ["ollama-local", "deepseek-v4-flash", "qwen3.7-flash", "gemini-3.8-flash", "grok-build-0.1"],
+        "fast": ["ollama-local", "deepseek-v4-flash", "qwen3.7-flash", "gemini-3.8-flash", "kimi-k2.7-code-highspeed"],
         "balanced": [
             "deepseek-v4-flash",
+            "ollama-local",
             "gemini-3.8-flash",
             "qwen3-coder-plus",
             "kimi-k2.7-code",
@@ -57,6 +58,7 @@ PREFERENCES: dict[Role, dict[Mode, list[str]]] = {
         "quality": [
             "gemini-3.8-flash",
             "deepseek-v4-pro",
+            "ollama-local",
             "qwen3-coder-plus",
             "kimi-k2.7-code",
             "grok-build-0.1",
@@ -76,10 +78,11 @@ PREFERENCES: dict[Role, dict[Mode, list[str]]] = {
         "quality": ["claude-opus-5", "claude-sonnet-5", "gpt-5.6-sol", "grok-4.6", "kimi-k3", "qwen3.8-max"],
     },
     "fix": {
-        "budget": ["deepseek-v4-flash", "qwen3.7-flash", "gemini-3.8-flash", "grok-build-0.1", "kimi-k2.7-code"],
-        "fast": ["deepseek-v4-flash", "qwen3.7-flash", "gemini-3.8-flash", "kimi-k2.7-code-highspeed", "grok-build-0.1"],
+        "budget": ["ollama-local", "deepseek-v4-flash", "qwen3.7-flash", "gemini-3.8-flash", "grok-build-0.1"],
+        "fast": ["ollama-local", "deepseek-v4-flash", "qwen3.7-flash", "gemini-3.8-flash", "kimi-k2.7-code-highspeed"],
         "balanced": [
             "deepseek-v4-flash",
+            "ollama-local",
             "gemini-3.8-flash",
             "qwen3-coder-plus",
             "kimi-k2.7-code",
@@ -89,6 +92,7 @@ PREFERENCES: dict[Role, dict[Mode, list[str]]] = {
         "quality": [
             "gemini-3.8-flash",
             "deepseek-v4-pro",
+            "ollama-local",
             "qwen3-coder-plus",
             "kimi-k2.7-code",
             "grok-build-0.1",
@@ -265,15 +269,22 @@ def pick_model(
         except ValueError:
             return 0
 
-    def score(spec: ModelSpec) -> tuple[int, int, int, int, int, int]:
+    def score(spec: ModelSpec) -> tuple[int, int, int, int, int, int, int]:
         in_pref = 1 if spec.id in preferred_ids else 0
         role_fit = 1 if role in spec.roles else 0
         strength_hits = sum(1 for item in wanted if item in spec.strengths)
+        zero_api = int(
+            mode in {"budget", "fast", "balanced"}
+            and role in {"code", "fix"}
+            and spec.input_per_m == 0
+            and spec.output_per_m == 0
+        )
         native = 1 if flags.get(spec.provider) else 0
         return (
             in_pref,
             role_fit,
             strength_hits,
+            zero_api,
             native,
             _quality_rank(spec, role, mode),
             list_rank(spec),

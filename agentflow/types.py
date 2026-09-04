@@ -36,6 +36,7 @@ ProviderName = Literal[
     "deepseek",
     "moonshot",
     "qwen",
+    "ollama",
     "openrouter",
 ]
 

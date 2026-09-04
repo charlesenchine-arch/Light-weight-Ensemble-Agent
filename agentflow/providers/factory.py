@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from collections.abc import Callable
 from typing import Any
 
@@ -19,6 +20,11 @@ def has_transport(spec: ModelSpec) -> bool:
 def resolve_transport(spec: ModelSpec) -> tuple[ProviderName, str]:
     flags = available_providers()
     if flags.get(spec.provider):
+        if spec.provider == "ollama":
+            model = os.environ.get("OLLAMA_MODEL", "").strip()
+            if not model:
+                raise RuntimeError("OLLAMA_MODEL is not configured")
+            return "ollama", model
         return spec.provider, spec.id
     if flags.get("openrouter") and spec.openrouter_id:
         return "openrouter", spec.openrouter_id

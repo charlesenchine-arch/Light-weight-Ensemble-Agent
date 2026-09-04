@@ -92,10 +92,12 @@ class Ledger(BaseModel):
         requested: int,
     ) -> int:
         """Largest output allowance that keeps the estimated call under cap."""
-        if requested <= 0 or model.output_per_m <= 0:
+        if requested <= 0:
             return 0
         remaining = max(self.cap_usd - self.total_usd, 0.0)
         input_usd = (max(input_tokens, 0) / 1_000_000) * model.input_per_m
+        if model.output_per_m <= 0:
+            return requested if input_usd <= remaining else 0
         output_usd = remaining - input_usd
         if output_usd <= 0:
             return 0

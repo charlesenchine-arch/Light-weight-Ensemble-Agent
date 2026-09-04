@@ -16,8 +16,10 @@ lea benchmark --json
 lea benchmark --baseline grok-4.6
 ```
 
-The command requires no API keys. It ignores local model pins and assumes every native
-provider in the catalog is reachable, making results deterministic across machines.
+The command requires no API keys. It ignores local model pins and assumes every hosted
+native provider in the catalog is reachable, making results deterministic across
+machines. Ollama is excluded because its hardware-dependent local cost is not
+comparable to hosted token pricing.
 
 ## Default result
 

@@ -39,6 +39,11 @@ All providers return the same internal `ChatResult` and `Usage` types. Native pr
 credentials are preferred, while OpenRouter can transport catalog models that declare
 an OpenRouter identifier.
 
+Ollama is an opt-in OpenAI-compatible local transport. The configured local model is
+eligible for every text role and has zero hosted API token price in the ledger. This
+does not mean zero total cost: hardware, power, and remote Ollama hosting remain outside
+LEA's API budget model.
+
 The reviewer avoids the coding model and then the coding provider whenever another
 reachable option exists. This is an error-diversity measure, not a claim that model
 agreement proves correctness.

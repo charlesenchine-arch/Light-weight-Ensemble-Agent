@@ -58,7 +58,9 @@ def run_catalog_benchmark(
     same role-specific typical token counts from the public catalog.
     """
     baseline = get_model(baseline_model)
-    available = {provider: provider != "openrouter" for provider in ENV_KEYS}
+    # The published benchmark compares hosted API routes. Ollama is opt-in and its
+    # hardware-dependent local cost is deliberately outside this price comparison.
+    available = {provider: provider not in {"openrouter", "ollama"} for provider in ENV_KEYS}
     rows: list[BenchmarkRow] = []
 
     for case in cases:

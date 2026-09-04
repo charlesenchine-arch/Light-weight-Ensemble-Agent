@@ -6,6 +6,11 @@ versioning.
 
 ## [Unreleased]
 
+### Added
+
+- Opt-in Ollama transport for local implementation and fixes with zero hosted API
+  token cost.
+
 ## [0.1.1] - 2026-09-04
 
 ### Added

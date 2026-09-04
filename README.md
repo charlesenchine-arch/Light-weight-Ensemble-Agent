@@ -216,6 +216,26 @@ OpenRouter can be used as a fallback transport.
 | DeepSeek | Cost-efficient implementation and fixes |
 | Moonshot / Kimi | Long-context planning and coding |
 | Alibaba / Qwen | Budget coding, planning, and review |
+| Ollama | Local implementation and fixes with $0 hosted API token cost |
+
+### Local implementation with Ollama
+
+Keep planning and review on hosted models while moving token-heavy implementation to
+your own machine:
+
+```dotenv
+OLLAMA_MODEL=qwen3-coder:30b
+OLLAMA_BASE_URL=http://127.0.0.1:11434/v1
+```
+
+```bash
+ollama pull qwen3-coder:30b
+lea route --budget 10cny "Refactor the caching layer"
+lea run --budget 10cny "Refactor the caching layer"
+```
+
+LEA reports Ollama stages as `$0` **hosted API cost** while still recording token
+usage. Hardware, electricity, and any remote Ollama hosting costs are not included.
 
 Model prices and capabilities live in one auditable catalog:
 [`agentflow/catalog.py`](agentflow/catalog.py). Every active entry includes its
@@ -275,7 +295,7 @@ interrupts, workspace boundaries, skills, and the interactive composer.
 - [ ] Recorded terminal demo
 - [x] Reproducible catalog cost benchmark
 - [ ] Linux/macOS native installer
-- [ ] Local-model transport through Ollama
+- [x] Local-model transport through Ollama
 - [ ] MCP tool-server support
 - [ ] Signed releases and PyPI trusted publishing
 

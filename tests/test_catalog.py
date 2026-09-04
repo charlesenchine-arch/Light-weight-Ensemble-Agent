@@ -62,6 +62,19 @@ def test_ledger_rejects_call_when_input_consumes_budget():
     assert ledger.affordable_output_tokens(spec, input_tokens=1000, requested=1000) == 0
 
 
+def test_local_model_keeps_full_output_allowance_at_zero_api_cost():
+    spec = get_model("ollama-local")
+    ledger = Ledger(cap_usd=0.001)
+    assert ledger.affordable_output_tokens(spec, input_tokens=1_000_000, requested=8192) == 8192
+    event = ledger.record(
+        "code",
+        spec.id,
+        spec.provider,
+        Usage(input_tokens=10_000, output_tokens=2_000),
+    )
+    assert event.usd == 0
+
+
 def test_input_estimate_counts_unicode_and_tools_conservatively():
     messages = [ChatMessage(role="user", content="请修复这个接口")]
     plain = conservative_input_tokens(messages)

@@ -62,6 +62,16 @@ lea route --budget 10cny --json "为用户 API 增加分页"
 输出包含本地任务分类、每阶段模型与预估成本、预算降级动作和剩余额度，同样不会调用
 模型 API。
 
+如果希望把消耗 token 最多的实现阶段放到本机，可安装 Ollama 并配置：
+
+```dotenv
+OLLAMA_MODEL=qwen3-coder:30b
+OLLAMA_BASE_URL=http://127.0.0.1:11434/v1
+```
+
+本地阶段会记为 `$0` 托管 API 成本，但仍保留 token 用量；硬件、电费和远程 Ollama
+托管费用不计入账本。
+
 ## 可复现成本基准
 
 四个固定场景、相同角色 token 假设下，`balanced` 路由的目录估算总成本为

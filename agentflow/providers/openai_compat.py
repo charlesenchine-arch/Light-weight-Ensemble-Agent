@@ -17,6 +17,7 @@ BASE_URLS: dict[ProviderName, str | None] = {
     "google": "https://generativelanguage.googleapis.com/v1beta/openai/",
     "moonshot": "https://api.moonshot.cn/v1",
     "qwen": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+    "ollama": "http://127.0.0.1:11434/v1",
     "openrouter": "https://openrouter.ai/api/v1",
 }
 
@@ -31,6 +32,8 @@ _DASHSCOPE_REGIONS = {
 
 def base_url_for(provider: ProviderName) -> str | None:
     """Resolve the OpenAI-compatible base URL, honoring optional region overrides."""
+    if provider == "ollama":
+        return os.environ.get("OLLAMA_BASE_URL", "").strip() or BASE_URLS["ollama"]
     if provider == "moonshot":
         return os.environ.get("MOONSHOT_BASE_URL", "").strip() or BASE_URLS["moonshot"]
     if provider == "qwen":
@@ -53,7 +56,7 @@ HEADERS: dict[ProviderName, dict[str, str]] = {
 
 
 def _client(provider: ProviderName) -> OpenAI:
-    key = api_key(provider)
+    key = "ollama" if provider == "ollama" else api_key(provider)
     if not key:
         raise RuntimeError(f"Missing API key for {provider}")
     kwargs: dict[str, Any] = {"api_key": key}

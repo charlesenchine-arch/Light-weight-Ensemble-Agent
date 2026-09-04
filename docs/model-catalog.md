@@ -21,6 +21,7 @@ and the source URL. This makes cost estimates inspectable in CI or downstream to
 | DeepSeek | [Models and pricing](https://api-docs.deepseek.com/quick_start/pricing) | Cache-miss input and output prices |
 | Moonshot | [Kimi pricing](https://platform.kimi.ai/docs/pricing/chat) | Global API prices |
 | Alibaba | [Model Studio pricing](https://help.aliyun.com/zh/model-studio/model-pricing) | Beijing list price converted at 7.18 CNY/USD |
+| Ollama | [OpenAI compatibility](https://docs.ollama.com/api/openai-compatibility) | $0 hosted API token cost; local hardware cost excluded |
 
 ## Lifecycle handling
 
@@ -41,6 +42,8 @@ routes to `grok-4.3` and `grok-build-0.1` respectively. See xAI's
 - Promotional rates can expire. The verification date is part of every model entry
   so stale snapshots are visible rather than silent.
 - OpenRouter availability and pricing can differ from native provider APIs.
+- Ollama models vary in context, quality, and speed; `ollama-local` is an opt-in
+  transport placeholder rather than a claim about one specific model.
 - The runtime ledger uses reported token usage; preflight checks deliberately use a
   conservative token estimate so the budget guard errs on the safe side.
 

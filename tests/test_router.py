@@ -93,6 +93,30 @@ def test_budget_prefers_cheap_coder():
     assert coder.id == "deepseek-v4-flash"
 
 
+def test_budget_prefers_opted_in_local_coder():
+    coder = pick_model("code", "budget", flags("xai", "deepseek", "ollama"))
+    assert coder.id == "ollama-local"
+
+
+def test_balanced_uses_opted_in_local_for_token_heavy_code():
+    coder = pick_model("code", "balanced", flags("xai", "deepseek", "ollama"))
+    assert coder.id == "ollama-local"
+
+
+def test_ollama_only_pipeline_needs_no_hosted_key():
+    task = TaskClass(
+        intent="implement",
+        complexity="standard",
+        needs_plan=True,
+        needs_review=True,
+        summary="add endpoint",
+    )
+    pipe = build_pipeline(task, "balanced", flags("ollama"))
+    assert pipe.stages
+    assert {stage.model.provider for stage in pipe.stages} == {"ollama"}
+    assert pipe.estimated_usd == 0
+
+
 def test_cross_vendor_review_when_claude_present():
     task = TaskClass(
         intent="implement",

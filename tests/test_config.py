@@ -2,7 +2,7 @@ from importlib.resources import files
 
 import yaml
 
-from agentflow.config import load_settings
+from agentflow.config import available_providers, load_settings
 
 
 def test_packaged_defaults_are_available(tmp_path):
@@ -32,3 +32,8 @@ def test_repository_env_example_matches_packaged_template():
     assert set(line for line in root.splitlines() if line and not line.startswith("#")) == set(
         line for line in packaged.splitlines() if line and not line.startswith("#")
     )
+
+
+def test_ollama_model_enables_local_provider(monkeypatch):
+    monkeypatch.setenv("OLLAMA_MODEL", "qwen3-coder:30b")
+    assert available_providers()["ollama"] is True

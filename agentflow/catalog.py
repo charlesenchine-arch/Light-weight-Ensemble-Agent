@@ -18,6 +18,7 @@ CATALOG_SOURCES: dict[ProviderName, str] = {
     "deepseek": "https://api-docs.deepseek.com/quick_start/pricing",
     "moonshot": "https://platform.kimi.ai/docs/pricing/chat",
     "qwen": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "ollama": "https://docs.ollama.com/api/openai-compatibility",
     "openrouter": "https://openrouter.ai/models",
 }
 
@@ -27,6 +28,7 @@ PROVIDER_ORDER: tuple[ProviderName, ...] = (
     "deepseek",
     "moonshot",
     "qwen",
+    "ollama",
     "google",
     "openai",
 )
@@ -36,6 +38,7 @@ PROVIDER_LABEL = {
     "deepseek": "DeepSeek",
     "moonshot": "Moonshot / Kimi",
     "qwen": "Alibaba / Qwen",
+    "ollama": "Ollama / local",
     "google": "Google / Gemini",
     "openai": "OpenAI",
     "openrouter": "OpenRouter",
@@ -390,6 +393,21 @@ MODELS: dict[str, ModelSpec] = {
         strengths=["planning", "review", "coding", "architecture"],
         roles=["plan", "review", "research"],
         notes="Qwen flagship. Planner/reviewer on DashScope (CN by default).",
+    ),
+    # --- Local ----------------------------------------------------------
+    "ollama-local": _model(
+        id="ollama-local",
+        provider="ollama",
+        openrouter_id=None,
+        input_per_m=0.0,
+        output_per_m=0.0,
+        cached_input_per_m=0.0,
+        context=128_000,
+        speed="medium",
+        quality="standard",
+        strengths=["local", "privacy", "zero-api-cost", "coding"],
+        roles=["router", "research", "plan", "code", "review", "fix"],
+        notes="User-selected Ollama model. Hardware and electricity are outside the API ledger.",
     ),
 }
 

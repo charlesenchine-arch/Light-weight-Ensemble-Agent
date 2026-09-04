@@ -18,6 +18,7 @@ ENV_KEYS: dict[ProviderName, tuple[str, ...]] = {
     "deepseek": ("DEEPSEEK_API_KEY",),
     "moonshot": ("MOONSHOT_API_KEY", "KIMI_API_KEY"),
     "qwen": ("DASHSCOPE_API_KEY", "QWEN_API_KEY"),
+    "ollama": ("OLLAMA_MODEL",),
     "openrouter": ("OPENROUTER_API_KEY",),
 }
 
@@ -108,5 +109,5 @@ def require_any_provider() -> None:
     flags = available_providers()
     if not any(flags.values()):
         raise RuntimeError(
-            "No API keys found. Copy .env.example to .env and set at least XAI_API_KEY."
+            "No provider configured. Set an API key or configure OLLAMA_MODEL."
         )
