@@ -1,19 +1,29 @@
-from agentflow.catalog import estimate_stage, estimate_usd, get_model
+from agentflow.catalog import CATALOG_AS_OF, estimate_stage, estimate_usd, get_model
 from agentflow.cost import Ledger, conservative_input_tokens
 from agentflow.types import ChatMessage, Usage
 
 
 def test_estimate_usd_basic():
-    spec = get_model("grok-4-fast")
+    spec = get_model("gpt-5.6-luna")
     # 1M in + 1M out
     assert estimate_usd(spec, 1_000_000, 1_000_000) == spec.input_per_m + spec.output_per_m
 
 
 def test_typical_stage_router_is_cheap():
-    fast = get_model("grok-4-fast")
+    fast = get_model("gpt-5.6-luna")
     flagship = get_model("grok-4.6")
     assert estimate_stage(fast, "router") < 0.01
     assert estimate_stage(flagship, "code") > estimate_stage(fast, "router")
+
+
+def test_catalog_has_auditable_lifecycle_and_prices():
+    latest = get_model("gemini-3.8-flash")
+    retired = get_model("grok-4-fast")
+    assert latest.pricing_verified == CATALOG_AS_OF
+    assert latest.pricing_source.startswith("https://")
+    assert latest.status == "active"
+    assert retired.status == "deprecated"
+    assert retired.replacement == "grok-4.3"
 
 
 def test_unknown_model():

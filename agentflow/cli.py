@@ -143,7 +143,7 @@ def _print_vendor_models() -> None:
     n = 1
     skin = theme.current()
     for provider in PROVIDER_ORDER:
-        specs = [m for m in MODELS.values() if m.provider == provider]
+        specs = [m for m in MODELS.values() if m.provider == provider and m.status == "active"]
         if not specs:
             continue
         key_ok = flags.get(provider)
@@ -179,8 +179,25 @@ def _print_vendor_models() -> None:
 @app.command()
 def models(
     list_only: bool = typer.Option(False, "--list", help="只打印目录，不进入选择界面"),
+    as_json: bool = typer.Option(False, "--json", help="输出可审计的 JSON 模型目录"),
 ) -> None:
     """默认模型列表。TTY 下进入换供应商/换模型界面。"""
+    if as_json:
+        import json
+
+        from agentflow.catalog import CATALOG_AS_OF, CATALOG_SOURCES, MODELS
+
+        payload = {
+            "catalog_as_of": CATALOG_AS_OF,
+            "sources": CATALOG_SOURCES,
+            "models": [
+                spec.model_dump(mode="json")
+                for spec in MODELS.values()
+                if spec.status == "active"
+            ],
+        }
+        typer.echo(json.dumps(payload, ensure_ascii=False, indent=2))
+        return
     if list_only or not sys.stdin.isatty():
         _print_vendor_models()
         _print_keys()
@@ -300,6 +317,7 @@ def benchmark_cmd(
     import json
 
     from agentflow.benchmark import benchmark_summary, run_catalog_benchmark
+    from agentflow.catalog import CATALOG_AS_OF, CATALOG_SOURCES
 
     if mode not in MODES:
         console.print(theme.err_line(f"mode must be {', '.join(MODES)}"))
@@ -314,12 +332,14 @@ def benchmark_cmd(
     if as_json:
         payload = {
             "method": "catalog-estimate",
+            "catalog_as_of": CATALOG_AS_OF,
+            "pricing_sources": CATALOG_SOURCES,
             "mode": mode,
             "baseline_model": baseline,
             "cases": [row.as_dict() for row in rows],
             "summary": summary,
         }
-        console.print(json.dumps(payload, ensure_ascii=False, indent=2), markup=False)
+        typer.echo(json.dumps(payload, ensure_ascii=False, indent=2))
         return
 
     table = theme.themed_table(f"cost benchmark  ·  LEA {mode} vs {baseline}")

@@ -6,6 +6,19 @@ versioning.
 
 ## [Unreleased]
 
+### Added
+
+- Machine-readable `lea models --json` catalog with official pricing sources and
+  verification dates.
+- Gemini 3.8 Flash as the current Google coding and design default.
+
+### Changed
+
+- Migrated default routes away from retired xAI aliases and corrected their redirect
+  pricing for historical ledgers.
+- Updated OpenAI GPT-5.6 pricing and context windows, plus current DeepSeek and Qwen
+  cache pricing.
+
 ## [0.1.0] - 2026-09-04
 
 ### Added

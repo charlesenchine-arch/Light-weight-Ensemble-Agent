@@ -42,4 +42,19 @@ def test_benchmark_json_is_machine_readable():
     assert result.exit_code == 0
     payload = json.loads(result.output)
     assert payload["method"] == "catalog-estimate"
+    assert payload["catalog_as_of"] == "2026-09-04"
+    assert payload["pricing_sources"]["xai"].startswith("https://")
     assert payload["summary"]["savings_percent"] > 50
+
+
+def test_models_json_is_auditable_and_hides_retired_aliases():
+    import json
+
+    runner = CliRunner()
+    result = runner.invoke(app, ["models", "--json"])
+    assert result.exit_code == 0
+    payload = json.loads(result.output)
+    ids = {model["id"] for model in payload["models"]}
+    assert payload["catalog_as_of"] == "2026-09-04"
+    assert "gemini-3.8-flash" in ids
+    assert "grok-4-fast" not in ids

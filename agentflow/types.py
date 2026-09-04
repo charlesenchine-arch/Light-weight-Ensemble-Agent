@@ -102,6 +102,10 @@ class ModelSpec(BaseModel):
     strengths: list[str] = Field(default_factory=list)
     roles: list[Role] = Field(default_factory=list)
     notes: str = ""
+    pricing_source: str
+    pricing_verified: str
+    status: Literal["active", "deprecated"] = "active"
+    replacement: str | None = None
 
 
 class Stage(BaseModel):

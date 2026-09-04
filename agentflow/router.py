@@ -17,15 +17,15 @@ from agentflow.types import Mode, ModelSpec, Pipeline, ProviderName, Role, Stage
 # Preferred model ids per (role, mode). Cross-vendor review is applied later.
 PREFERENCES: dict[Role, dict[Mode, list[str]]] = {
     "router": {
-        "budget": ["grok-4-fast", "gpt-5.6-luna", "qwen3.7-flash", "deepseek-v4-flash", "claude-haiku-4.5"],
-        "fast": ["grok-4-fast", "gpt-5.6-luna", "qwen3.7-flash", "deepseek-v4-flash"],
-        "balanced": ["grok-4-fast", "gpt-5.6-luna", "claude-haiku-4.5", "qwen3.7-flash"],
-        "quality": ["grok-4-fast", "grok-4.6", "claude-sonnet-5"],
+        "budget": ["gpt-5.6-luna", "qwen3.7-flash", "deepseek-v4-flash", "grok-build-0.1", "claude-haiku-4.5"],
+        "fast": ["gpt-5.6-luna", "qwen3.7-flash", "deepseek-v4-flash", "grok-build-0.1"],
+        "balanced": ["gpt-5.6-luna", "claude-haiku-4.5", "qwen3.7-flash", "grok-4.3"],
+        "quality": ["grok-4.3", "grok-4.6", "claude-sonnet-5"],
     },
     "research": {
-        "budget": ["grok-4-fast", "deepseek-v4-flash", "gpt-5.6-luna", "qwen3.7-flash"],
-        "fast": ["grok-4-fast", "gpt-5.6-luna"],
-        "balanced": ["grok-4-fast", "grok-4.3", "gpt-5.6-terra", "kimi-k3"],
+        "budget": ["deepseek-v4-flash", "gpt-5.6-luna", "qwen3.7-flash", "grok-4.3"],
+        "fast": ["gpt-5.6-luna", "grok-4.3"],
+        "balanced": ["grok-4.3", "gpt-5.6-terra", "kimi-k3"],
         "quality": ["grok-4.6", "claude-sonnet-5", "kimi-k3", "qwen3.8-max"],
     },
     # Planning is short and high-leverage — spend here.
@@ -36,64 +36,62 @@ PREFERENCES: dict[Role, dict[Mode, list[str]]] = {
         "quality": ["grok-4.6", "claude-opus-5", "gpt-5.6-sol", "claude-sonnet-5", "kimi-k3", "qwen3.8-max"],
     },
     "design": {
-        "budget": ["gemini-3.7-flash", "gemini-3.6-flash", "qwen3.7-flash", "grok-4-fast"],
-        "fast": ["gemini-3.7-flash", "gemini-3.6-flash", "grok-4-fast"],
-        "balanced": ["gemini-3.7-flash", "grok-4.6", "gemini-3.6-flash", "qwen3.8-max"],
-        "quality": ["grok-4.6", "gemini-3.7-flash", "claude-sonnet-5"],
+        "budget": ["gemini-3.8-flash", "gemini-3.7-flash", "gemini-3.6-flash", "qwen3.7-flash", "grok-4.3"],
+        "fast": ["gemini-3.8-flash", "gemini-3.7-flash", "gemini-3.6-flash", "grok-4.3"],
+        "balanced": ["gemini-3.8-flash", "grok-4.6", "gemini-3.7-flash", "qwen3.8-max"],
+        "quality": ["grok-4.6", "gemini-3.8-flash", "claude-sonnet-5"],
     },
     # Coding burns most tokens — keep it on flash/budget models.
     # The planner already made the expensive decisions.
     "code": {
-        "budget": ["deepseek-v4-flash", "qwen3.7-flash", "gemini-3.7-flash", "grok-code-fast-1", "kimi-k2.7-code"],
-        "fast": ["deepseek-v4-flash", "qwen3.7-flash", "gemini-3.7-flash", "kimi-k2.7-code-highspeed", "grok-code-fast-1"],
+        "budget": ["deepseek-v4-flash", "qwen3.7-flash", "gemini-3.8-flash", "grok-build-0.1", "kimi-k2.7-code"],
+        "fast": ["deepseek-v4-flash", "qwen3.7-flash", "gemini-3.8-flash", "kimi-k2.7-code-highspeed", "grok-build-0.1"],
         "balanced": [
             "deepseek-v4-flash",
-            "gemini-3.7-flash",
+            "gemini-3.8-flash",
             "qwen3-coder-plus",
             "kimi-k2.7-code",
-            "grok-code-fast-1",
+            "grok-build-0.1",
             "deepseek-v4-pro",
         ],
         "quality": [
-            "gemini-3.7-flash",
+            "gemini-3.8-flash",
             "deepseek-v4-pro",
             "qwen3-coder-plus",
             "kimi-k2.7-code",
             "grok-build-0.1",
-            "grok-code-fast-1",
         ],
     },
     "review": {
-        "budget": ["grok-4-fast", "claude-haiku-4.5", "deepseek-v4-flash", "qwen3.7-flash"],
-        "fast": ["grok-4-fast", "claude-haiku-4.5"],
+        "budget": ["claude-haiku-4.5", "deepseek-v4-flash", "qwen3.7-flash", "grok-4.3"],
+        "fast": ["claude-haiku-4.5", "grok-4.3"],
         "balanced": [
             "claude-sonnet-5",
             "gpt-5.6-terra",
             "grok-4.6",
-            "gemini-3.7-flash",
+            "gemini-3.8-flash",
             "kimi-k3",
             "qwen3.8-max",
         ],
         "quality": ["claude-opus-5", "claude-sonnet-5", "gpt-5.6-sol", "grok-4.6", "kimi-k3", "qwen3.8-max"],
     },
     "fix": {
-        "budget": ["deepseek-v4-flash", "qwen3.7-flash", "gemini-3.7-flash", "grok-code-fast-1", "kimi-k2.7-code"],
-        "fast": ["deepseek-v4-flash", "qwen3.7-flash", "gemini-3.7-flash", "kimi-k2.7-code-highspeed", "grok-code-fast-1"],
+        "budget": ["deepseek-v4-flash", "qwen3.7-flash", "gemini-3.8-flash", "grok-build-0.1", "kimi-k2.7-code"],
+        "fast": ["deepseek-v4-flash", "qwen3.7-flash", "gemini-3.8-flash", "kimi-k2.7-code-highspeed", "grok-build-0.1"],
         "balanced": [
             "deepseek-v4-flash",
-            "gemini-3.7-flash",
+            "gemini-3.8-flash",
             "qwen3-coder-plus",
             "kimi-k2.7-code",
-            "grok-code-fast-1",
+            "grok-build-0.1",
             "deepseek-v4-pro",
         ],
         "quality": [
-            "gemini-3.7-flash",
+            "gemini-3.8-flash",
             "deepseek-v4-pro",
             "qwen3-coder-plus",
             "kimi-k2.7-code",
             "grok-build-0.1",
-            "grok-code-fast-1",
         ],
     },
 }
@@ -218,6 +216,8 @@ def parse_classification(raw: str, fallback: TaskClass) -> TaskClass:
 def _reachable(spec: ModelSpec, available: dict[ProviderName, bool]) -> bool:
     from agentflow.retry import is_healthy
 
+    if spec.status != "active":
+        return False
     native = bool(available.get(spec.provider) and is_healthy(spec.provider))
     if native:
         return True

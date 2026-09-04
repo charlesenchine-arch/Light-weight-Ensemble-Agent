@@ -64,8 +64,9 @@ lea benchmark --json
 lea benchmark --baseline claude-sonnet-5
 ```
 
-该结果只比较公开目录中的价格模型，不宣称不同模型的输出质量相同。完整方法和限制见
-[基准说明](../benchmarks/README.md)。
+该结果只比较公开目录中的价格模型，不宣称不同模型的输出质量相同。JSON 输出会携带
+目录核验日期和官方价格来源；完整方法见[基准说明](../benchmarks/README.md)，价格溯源见
+[模型目录说明](model-catalog.md)。
 
 ## 四种模式
 
@@ -101,7 +102,8 @@ lea benchmark --baseline claude-sonnet-5
 - OpenRouter（备用传输）
 
 只需要配置你实际使用的供应商。LEA 会从当前可用模型中选择路线，也可以通过
-`lea models` 和 `lea use <role> <model>` 固定模型。
+`lea models` 和 `lea use <role> <model>` 固定模型。使用 `lea models --json` 可导出包含
+官方价格来源、核验日期和生命周期状态的机器可读目录。
 
 ## 安全边界
 

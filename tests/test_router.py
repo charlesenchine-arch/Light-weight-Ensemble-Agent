@@ -38,9 +38,9 @@ def test_how_to_still_implements():
 
 def test_balanced_uses_cheap_router_and_coding_model():
     spec = pick_model("router", "balanced", flags("xai"))
-    assert spec.id == "grok-4-fast"
+    assert spec.id == "grok-4.3"
     coder = pick_model("code", "balanced", flags("xai"))
-    assert coder.id == "grok-code-fast-1"
+    assert coder.id == "grok-build-0.1"
 
 
 def test_balanced_expensive_plan_cheap_code():
@@ -70,7 +70,7 @@ def test_ui_code_prefers_gemini_flash():
     )
     pipe = build_pipeline(task, "balanced", flags("xai", "google", "deepseek"))
     roles = {s.role: s for s in pipe.stages}
-    assert roles["code"].model.id == "gemini-3.7-flash"
+    assert roles["code"].model.id == "gemini-3.8-flash"
 
 
 def test_hard_task_does_not_upgrade_coder():
@@ -85,12 +85,12 @@ def test_hard_task_does_not_upgrade_coder():
     pipe = build_pipeline(task, "balanced", flags("xai", "deepseek", "anthropic"))
     roles = {s.role: s for s in pipe.stages}
     assert roles["plan"].model.id in {"grok-4.6", "claude-opus-5", "claude-sonnet-5"}
-    assert roles["code"].model.id in {"deepseek-v4-flash", "gemini-3.7-flash", "grok-code-fast-1"}
+    assert roles["code"].model.id in {"deepseek-v4-flash", "gemini-3.8-flash", "grok-build-0.1"}
 
 
 def test_budget_prefers_cheap_coder():
     coder = pick_model("code", "budget", flags("xai", "deepseek"))
-    assert coder.id in {"grok-code-fast-1", "deepseek-v4-flash"}
+    assert coder.id == "deepseek-v4-flash"
 
 
 def test_cross_vendor_review_when_claude_present():

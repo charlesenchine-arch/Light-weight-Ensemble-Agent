@@ -213,10 +213,13 @@ OpenRouter can be used as a fallback transport.
 | Alibaba / Qwen | Budget coding, planning, and review |
 
 Model prices and capabilities live in one auditable catalog:
-[`agentflow/catalog.py`](agentflow/catalog.py). Pin a preferred model with:
+[`agentflow/catalog.py`](agentflow/catalog.py). Every active entry includes its
+official pricing source and verification date; see the
+[catalog provenance](docs/model-catalog.md). Pin a preferred model with:
 
 ```bash
 lea models
+lea models --json
 lea use code deepseek-v4-pro
 lea use review claude-sonnet-5
 ```
