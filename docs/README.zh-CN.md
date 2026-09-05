@@ -12,6 +12,9 @@ LEA（Light-weight Ensemble Agent）是一个本地编程 Agent。它不会把�
 
 默认策略是：**强模型做规划，便宜模型写代码，另一家模型做审核。**
 
+无需安装即可打开[交互式成本实验室](https://charlesenchine-arch.github.io/Light-weight-Ensemble-Agent/)，
+按场景、单模型基线和预算查看同一份版本化价格目录生成的估算。
+
 ## 一分钟安装
 
 macOS / Linux：
@@ -103,6 +106,9 @@ lea benchmark --baseline claude-sonnet-5
 该结果只比较公开目录中的价格模型，不宣称不同模型的输出质量相同。JSON 输出会携带
 目录核验日期和官方价格来源；完整方法见[基准说明](../benchmarks/README.md)，价格溯源见
 [模型目录说明](model-catalog.md)。
+
+也可以直接使用[交互式成本实验室](https://charlesenchine-arch.github.io/Light-weight-Ensemble-Agent/)
+切换任务场景、基线模型和预算。网页与命令行基准来自同一份数据，不需要 API Key。
 
 ## 四种模式
 

@@ -8,6 +8,8 @@ versioning.
 
 ### Added
 
+- A no-tracking, interactive GitHub Pages cost lab generated from the same
+  deterministic model catalog as `lea benchmark`.
 - Checksum-verified, one-command installers for macOS, Linux, and Windows using
   isolated `uv` tool environments.
 

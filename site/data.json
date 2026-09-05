@@ -1,0 +1,287 @@
+{
+  "schema_version": 1,
+  "catalog_as_of": "2026-09-04",
+  "method": "catalog-price-model",
+  "default_baseline": "grok-4.6",
+  "summary": {
+    "lea_usd": 0.2925,
+    "baseline_usd": 0.6596,
+    "savings_percent": 55.7
+  },
+  "typical_tokens": {
+    "router": [
+      1200,
+      400
+    ],
+    "research": [
+      6000,
+      1500
+    ],
+    "plan": [
+      8000,
+      2000
+    ],
+    "design": [
+      7000,
+      2200
+    ],
+    "code": [
+      18000,
+      6000
+    ],
+    "review": [
+      14000,
+      1800
+    ],
+    "fix": [
+      12000,
+      4000
+    ]
+  },
+  "scenarios": [
+    {
+      "case": "Backend feature",
+      "roles": [
+        "plan",
+        "code",
+        "review",
+        "fix"
+      ],
+      "route": [
+        "grok-4.6",
+        "deepseek-v4-flash",
+        "claude-sonnet-5",
+        "deepseek-v4-flash"
+      ],
+      "providers": 3,
+      "lea_usd": 0.081,
+      "baseline_usd": 0.1868,
+      "savings_percent": 56.6
+    },
+    {
+      "case": "Frontend UI",
+      "roles": [
+        "plan",
+        "design",
+        "code",
+        "review",
+        "fix"
+      ],
+      "route": [
+        "grok-4.6",
+        "gemini-3.8-flash",
+        "gemini-3.8-flash",
+        "claude-sonnet-5",
+        "deepseek-v4-flash"
+      ],
+      "providers": 4,
+      "lea_usd": 0.1263,
+      "baseline_usd": 0.214,
+      "savings_percent": 41.0
+    },
+    {
+      "case": "Hard architecture",
+      "roles": [
+        "plan",
+        "code",
+        "review",
+        "fix"
+      ],
+      "route": [
+        "grok-4.6",
+        "deepseek-v4-flash",
+        "claude-sonnet-5",
+        "deepseek-v4-flash"
+      ],
+      "providers": 3,
+      "lea_usd": 0.081,
+      "baseline_usd": 0.1868,
+      "savings_percent": 56.6
+    },
+    {
+      "case": "Bug fix",
+      "roles": [
+        "code"
+      ],
+      "route": [
+        "deepseek-v4-flash"
+      ],
+      "providers": 1,
+      "lea_usd": 0.0042,
+      "baseline_usd": 0.072,
+      "savings_percent": 94.2
+    }
+  ],
+  "models": [
+    {
+      "id": "grok-build-0.1",
+      "provider": "xai",
+      "provider_label": "xAI / Grok",
+      "input_per_m": 1.0,
+      "output_per_m": 2.0,
+      "quality": "standard"
+    },
+    {
+      "id": "grok-4.3",
+      "provider": "xai",
+      "provider_label": "xAI / Grok",
+      "input_per_m": 1.25,
+      "output_per_m": 2.5,
+      "quality": "standard"
+    },
+    {
+      "id": "grok-4.6",
+      "provider": "xai",
+      "provider_label": "xAI / Grok",
+      "input_per_m": 2.0,
+      "output_per_m": 6.0,
+      "quality": "frontier"
+    },
+    {
+      "id": "claude-haiku-4.5",
+      "provider": "anthropic",
+      "provider_label": "Anthropic / Claude",
+      "input_per_m": 1.0,
+      "output_per_m": 5.0,
+      "quality": "budget"
+    },
+    {
+      "id": "claude-sonnet-5",
+      "provider": "anthropic",
+      "provider_label": "Anthropic / Claude",
+      "input_per_m": 2.0,
+      "output_per_m": 10.0,
+      "quality": "standard"
+    },
+    {
+      "id": "claude-opus-5",
+      "provider": "anthropic",
+      "provider_label": "Anthropic / Claude",
+      "input_per_m": 5.0,
+      "output_per_m": 25.0,
+      "quality": "frontier"
+    },
+    {
+      "id": "gpt-5.6-luna",
+      "provider": "openai",
+      "provider_label": "OpenAI",
+      "input_per_m": 0.2,
+      "output_per_m": 1.2,
+      "quality": "budget"
+    },
+    {
+      "id": "gpt-5.6-terra",
+      "provider": "openai",
+      "provider_label": "OpenAI",
+      "input_per_m": 2.0,
+      "output_per_m": 12.0,
+      "quality": "standard"
+    },
+    {
+      "id": "gpt-5.6-sol",
+      "provider": "openai",
+      "provider_label": "OpenAI",
+      "input_per_m": 4.0,
+      "output_per_m": 20.0,
+      "quality": "frontier"
+    },
+    {
+      "id": "gemini-3.8-flash",
+      "provider": "google",
+      "provider_label": "Google / Gemini",
+      "input_per_m": 0.75,
+      "output_per_m": 3.75,
+      "quality": "standard"
+    },
+    {
+      "id": "gemini-3.7-flash",
+      "provider": "google",
+      "provider_label": "Google / Gemini",
+      "input_per_m": 0.75,
+      "output_per_m": 3.75,
+      "quality": "standard"
+    },
+    {
+      "id": "gemini-3.6-flash",
+      "provider": "google",
+      "provider_label": "Google / Gemini",
+      "input_per_m": 0.75,
+      "output_per_m": 3.75,
+      "quality": "standard"
+    },
+    {
+      "id": "deepseek-v4-flash",
+      "provider": "deepseek",
+      "provider_label": "DeepSeek",
+      "input_per_m": 0.14,
+      "output_per_m": 0.28,
+      "quality": "budget"
+    },
+    {
+      "id": "deepseek-v4-pro",
+      "provider": "deepseek",
+      "provider_label": "DeepSeek",
+      "input_per_m": 0.435,
+      "output_per_m": 0.87,
+      "quality": "standard"
+    },
+    {
+      "id": "kimi-k2.7-code",
+      "provider": "moonshot",
+      "provider_label": "Moonshot / Kimi",
+      "input_per_m": 0.95,
+      "output_per_m": 4.0,
+      "quality": "standard"
+    },
+    {
+      "id": "kimi-k2.7-code-highspeed",
+      "provider": "moonshot",
+      "provider_label": "Moonshot / Kimi",
+      "input_per_m": 1.9,
+      "output_per_m": 8.0,
+      "quality": "standard"
+    },
+    {
+      "id": "kimi-k3",
+      "provider": "moonshot",
+      "provider_label": "Moonshot / Kimi",
+      "input_per_m": 3.0,
+      "output_per_m": 15.0,
+      "quality": "frontier"
+    },
+    {
+      "id": "qwen3.7-flash",
+      "provider": "qwen",
+      "provider_label": "Alibaba / Qwen",
+      "input_per_m": 0.03,
+      "output_per_m": 0.11,
+      "quality": "budget"
+    },
+    {
+      "id": "qwen3-coder-plus",
+      "provider": "qwen",
+      "provider_label": "Alibaba / Qwen",
+      "input_per_m": 0.56,
+      "output_per_m": 2.23,
+      "quality": "standard"
+    },
+    {
+      "id": "qwen3.8-max",
+      "provider": "qwen",
+      "provider_label": "Alibaba / Qwen",
+      "input_per_m": 1.67,
+      "output_per_m": 5.01,
+      "quality": "frontier"
+    }
+  ],
+  "pricing_sources": {
+    "xai": "https://docs.x.ai/developers/pricing",
+    "anthropic": "https://docs.anthropic.com/en/docs/about-claude/pricing",
+    "openai": "https://platform.openai.com/docs/models",
+    "google": "https://ai.google.dev/gemini-api/docs/pricing",
+    "deepseek": "https://api-docs.deepseek.com/quick_start/pricing",
+    "moonshot": "https://platform.kimi.ai/docs/pricing/chat",
+    "qwen": "https://help.aliyun.com/zh/model-studio/model-pricing"
+  },
+  "disclaimer": "A deterministic catalog price estimate using identical stage token assumptions; it does not claim equal model quality or predict an invoice."
+}

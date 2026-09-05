@@ -16,6 +16,7 @@
 </p>
 
 <p align="center">
+  <a href="https://charlesenchine-arch.github.io/Light-weight-Ensemble-Agent/">Interactive cost lab</a> ·
   <a href="#quick-start">Quick start</a> ·
   <a href="#how-it-works">How it works</a> ·
   <a href="#why-lea">Why LEA</a> ·
@@ -166,6 +167,9 @@ lea benchmark --baseline claude-sonnet-5
 
 This is a catalog price-model benchmark, not a claim that model quality is equal.
 The complete methodology and limitations are in [benchmarks/README.md](benchmarks/README.md).
+You can also [change the scenario, baseline model, and budget in the interactive cost
+lab](https://charlesenchine-arch.github.io/Light-weight-Ensemble-Agent/)—it is generated
+from this same versioned catalog and requires no API key.
 
 ## How it works
 

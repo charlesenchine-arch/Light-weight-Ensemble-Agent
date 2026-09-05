@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://charlesenchine-arch.github.io/Light-weight-Ensemble-Agent/sitemap.xml

@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LEA Cost Lab — Route coding agents by budget</title>
+    <meta name="description" content="Explore a reproducible catalog-price estimate for LEA, the budget-native multi-model coding agent with live steering, Ollama, and trusted MCP tools.">
+    <meta name="theme-color" content="#101623">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="canonical" href="https://charlesenchine-arch.github.io/Light-weight-Ensemble-Agent/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="LEA Cost Lab — Spend intelligence where it matters">
+    <meta property="og:description" content="Choose a coding scenario and compare a role-aware model route with a single-model baseline.">
+    <meta property="og:url" content="https://charlesenchine-arch.github.io/Light-weight-Ensemble-Agent/">
+    <meta property="og:image" content="https://raw.githubusercontent.com/charlesenchine-arch/Light-weight-Ensemble-Agent/main/assets/social-preview.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="stylesheet" href="styles.css">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "LEA — Light-weight Ensemble Agent",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, macOS, Linux",
+        "isAccessibleForFree": true,
+        "license": "https://www.apache.org/licenses/LICENSE-2.0",
+        "codeRepository": "https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent"
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#cost-lab">Skip to cost lab</a>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="LEA home">
+        <span class="brand-mark" aria-hidden="true">L</span>
+        <span>LEA <em>/ cost lab</em></span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#method">Method</a>
+        <a href="https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent/blob/main/docs/README.zh-CN.md">中文</a>
+        <a class="nav-star" id="star-cta" href="https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent" target="_blank" rel="noreferrer">Star on GitHub <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span></span> Open source · local first · budget native</p>
+          <h1 id="hero-title">Stop paying frontier prices for <i>mechanical tokens.</i></h1>
+          <p class="hero-lede">LEA plans with capable models, implements with efficient or local models, and reviews with an independent provider—inside a budget you set before the run.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#cost-lab">Explore the estimate <span aria-hidden="true">↓</span></a>
+            <a class="button button-secondary" href="https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent#quick-start">Install LEA <span aria-hidden="true">↗</span></a>
+          </div>
+          <p class="microcopy">No API key. No model call. The calculator uses the repository's versioned price catalog.</p>
+        </div>
+        <div class="hero-terminal" aria-label="Example LEA route">
+          <div class="terminal-top"><span></span><span></span><span></span><b>lea route</b></div>
+          <div class="terminal-body">
+            <p><small>$</small> lea route --budget 1usd <strong>"Ship OAuth"</strong></p>
+            <ol>
+              <li><span>01</span><b>plan</b><em>capable reasoning</em><mark>$0.036</mark></li>
+              <li><span>02</span><b>code</b><em>efficient coding</em><mark>$0.010</mark></li>
+              <li><span>03</span><b>review</b><em>other provider</em><mark>$0.034</mark></li>
+              <li><span>04</span><b>guard</b><em>before every call</em><mark>on</mark></li>
+            </ol>
+            <div class="terminal-total"><span>estimated route</span><b>$0.081</b></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="proof-strip" aria-label="Published benchmark summary">
+        <div><strong id="headline-saving">55.7%</strong><span>lower catalog estimate</span></div>
+        <div><strong>4</strong><span>fixed coding scenarios</span></div>
+        <div><strong>3+</strong><span>providers in a typical route</span></div>
+        <div><strong>$0</strong><span>API cost to reproduce</span></div>
+      </section>
+
+      <section class="lab-section" id="cost-lab" aria-labelledby="lab-title">
+        <div class="section-heading">
+          <p class="eyebrow"><span></span> Interactive catalog estimate</p>
+          <h2 id="lab-title">Put a route under your budget.</h2>
+          <p>Choose a fixed scenario and a single-model baseline. Both sides use identical stage-level token assumptions.</p>
+        </div>
+
+        <div class="lab-shell">
+          <form class="controls" id="calculator-form">
+            <div class="control-group">
+              <label for="scenario">Coding scenario</label>
+              <select id="scenario" name="scenario"></select>
+            </div>
+            <div class="control-group">
+              <label for="baseline">Single-model baseline</label>
+              <select id="baseline" name="baseline"></select>
+            </div>
+            <div class="control-group budget-group">
+              <label for="budget">Available API budget</label>
+              <div class="money-input"><span>$</span><input id="budget" name="budget" type="number" min="0.01" max="100" step="0.01" value="1.00" inputmode="decimal"></div>
+            </div>
+            <button class="share-button" id="copy-result" type="button">Copy this comparison</button>
+            <p class="control-note">Prices are USD per 1M tokens. Local Ollama costs are excluded because hardware and power are not comparable to hosted token prices.</p>
+          </form>
+
+          <div class="results" aria-live="polite">
+            <div class="result-kicker" id="result-kicker">All four benchmark scenarios</div>
+            <div class="result-main">
+              <div><span>LEA route</span><strong id="lea-cost">$0.2925</strong></div>
+              <div><span id="baseline-label">Grok 4.6 baseline</span><strong id="baseline-cost">$0.6596</strong></div>
+            </div>
+            <div class="comparison-bars" aria-hidden="true">
+              <div><span>LEA</span><i><b id="lea-bar"></b></i></div>
+              <div><span>One model</span><i><b id="baseline-bar"></b></i></div>
+            </div>
+            <div class="saving-callout">
+              <strong id="saving-value">55.7%</strong>
+              <span id="saving-label">lower estimated catalog cost</span>
+            </div>
+            <div class="budget-answer" id="budget-answer">A $1.00 budget fits about 3 complete benchmark sets at this estimate.</div>
+          </div>
+        </div>
+
+        <div class="route-panel">
+          <div class="route-head">
+            <h3>What LEA routes—and why</h3>
+            <span id="catalog-date">Catalog checked 2026-09-04</span>
+          </div>
+          <div id="route-list" class="route-list"></div>
+        </div>
+        <div class="data-error" id="data-error" hidden>Could not load the versioned benchmark data. The repository calculator remains available from <code>lea benchmark</code>.</div>
+      </section>
+
+      <section class="difference-section" aria-labelledby="difference-title">
+        <div class="section-heading">
+          <p class="eyebrow"><span></span> Different optimization target</p>
+          <h2 id="difference-title">One agent. Multiple economic jobs.</h2>
+        </div>
+        <div class="difference-grid">
+          <article><span>01</span><h3>Spend on leverage</h3><p>Planning gets the reasoning budget because a good plan shapes every later token.</p></article>
+          <article><span>02</span><h3>Save on volume</h3><p>Implementation can move to an efficient hosted model—or Ollama with zero hosted API token cost.</p></article>
+          <article><span>03</span><h3>Diversify review</h3><p>Review prefers another provider, reducing the chance that one model grades its own blind spots.</p></article>
+          <article><span>04</span><h3>Keep control live</h3><p>Queue a follow-up or interrupt the HTTP call, retry wait, local command, or trusted MCP tool.</p></article>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="demo-title">
+        <div class="demo-copy">
+          <p class="eyebrow"><span></span> Deterministic walkthrough</p>
+          <h2 id="demo-title">See the budget before spending it.</h2>
+          <p>Preview the exact stage route as JSON, reproduce the benchmark without credentials, then decide whether the run is worth its cap.</p>
+          <pre><code>lea route --budget 10cny --json "Add OAuth"
+lea benchmark --json
+lea run --budget 1usd "Ship the change"</code></pre>
+        </div>
+        <img src="assets/lea-demo.gif" alt="LEA terminal walkthrough showing planning, coding, independent review, budget tracking, and live steering" loading="lazy" width="1000" height="563">
+      </section>
+
+      <section class="method-section" id="method" aria-labelledby="method-title">
+        <div>
+          <p class="eyebrow"><span></span> Read the fine print</p>
+          <h2 id="method-title">Useful estimate. Narrow claim.</h2>
+        </div>
+        <div class="method-copy">
+          <p id="disclaimer">This is a deterministic catalog-price estimate—not a claim that different models produce equal-quality work and not a prediction of your invoice.</p>
+          <ol>
+            <li>Classify four fixed tasks locally.</li>
+            <li>Build LEA's default balanced route.</li>
+            <li>Apply the same role-level token counts to both routes.</li>
+            <li>Price them from the versioned provider catalog.</li>
+          </ol>
+          <div id="source-links" class="source-links"></div>
+          <a class="text-link" href="https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent/blob/main/benchmarks/README.md">Read the full methodology <span aria-hidden="true">↗</span></a>
+        </div>
+      </section>
+
+      <section class="final-cta">
+        <p>Budget the run. Route the work. Keep the steering wheel.</p>
+        <h2>Try LEA on a version-controlled project.</h2>
+        <div class="hero-actions">
+          <a class="button button-primary" href="https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent">Star and install on GitHub <span aria-hidden="true">↗</span></a>
+          <a class="button button-dark" href="https://github.com/charlesenchine-arch/Light-weight-Ensemble-Agent/discussions/7">Shape the roadmap</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>LEA · Apache-2.0 · built in the open</span>
+      <span>No analytics. No tracking pixels. Just a versioned JSON file.</span>
+    </footer>
+    <script src="app.js" defer></script>
+  </body>
+</html>
