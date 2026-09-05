@@ -2,6 +2,8 @@
   <img src="assets/lea-demo.gif" alt="LEA routes planning, local coding, independent review, and live steering inside a fixed budget" width="900">
 </p>
 
+<p align="center"><sub>Illustrated feature walkthrough, not a captured live run. The 55.7% figure belongs to the separate hosted-model catalog benchmark below.</sub></p>
+
 <p align="center">
   <strong>Spend intelligence where it matters.</strong><br>
   A budget-native coding agent that plans with strong models, implements with fast models,

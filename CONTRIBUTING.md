@@ -34,6 +34,9 @@ A good pull request:
 Model catalog updates should cite the provider pricing page and date in the pull request.
 Do not silently replace model IDs or prices.
 
+For project introductions, see the [launch drafts and evidence notes](docs/launch.md).
+They distinguish verified behavior from estimates and identify channel-specific rules.
+
 ## Design principles
 
 - Budget is a constraint, not just a dashboard number.

@@ -6,6 +6,11 @@ versioning.
 
 ## [Unreleased]
 
+### Fixed
+
+- Corrected the cost lab's illustrated stage prices to match its backend benchmark,
+  and clarified fixed-route budget calculations and the README animation's provenance.
+
 ### Added
 
 - A no-tracking, interactive GitHub Pages cost lab generated from the same

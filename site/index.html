@@ -57,14 +57,14 @@
         <div class="hero-terminal" aria-label="Example LEA route">
           <div class="terminal-top"><span></span><span></span><span></span><b>lea route</b></div>
           <div class="terminal-body">
-            <p><small>$</small> lea route --budget 1usd <strong>"Ship OAuth"</strong></p>
+            <p><small>$</small> lea benchmark</p>
             <ol>
-              <li><span>01</span><b>plan</b><em>capable reasoning</em><mark>$0.036</mark></li>
-              <li><span>02</span><b>code</b><em>efficient coding</em><mark>$0.010</mark></li>
-              <li><span>03</span><b>review</b><em>other provider</em><mark>$0.034</mark></li>
-              <li><span>04</span><b>guard</b><em>before every call</em><mark>on</mark></li>
+              <li><span>01</span><b>plan</b><em>grok-4.6</em><mark>$0.0280</mark></li>
+              <li><span>02</span><b>code</b><em>deepseek-v4-flash</em><mark>$0.0042</mark></li>
+              <li><span>03</span><b>review</b><em>claude-sonnet-5</em><mark>$0.0460</mark></li>
+              <li><span>04</span><b>fix</b><em>reserved review fix</em><mark>$0.0028</mark></li>
             </ol>
-            <div class="terminal-total"><span>estimated route</span><b>$0.081</b></div>
+            <div class="terminal-total"><span>backend feature estimate</span><b>$0.081</b></div>
           </div>
         </div>
       </section>
@@ -80,7 +80,7 @@
         <div class="section-heading">
           <p class="eyebrow"><span></span> Interactive catalog estimate</p>
           <h2 id="lab-title">Put a route under your budget.</h2>
-          <p>Choose a fixed scenario and a single-model baseline. Both sides use identical stage-level token assumptions.</p>
+          <p>Choose a fixed scenario and a single-model baseline. Both sides use identical stage-level token assumptions. The budget counts affordable runs of this fixed route; it does not reroute the models.</p>
         </div>
 
         <div class="lab-shell">
@@ -144,9 +144,10 @@
 
       <section class="demo-section" aria-labelledby="demo-title">
         <div class="demo-copy">
-          <p class="eyebrow"><span></span> Deterministic walkthrough</p>
+          <p class="eyebrow"><span></span> Illustrated feature walkthrough</p>
           <h2 id="demo-title">See the budget before spending it.</h2>
           <p>Preview the exact stage route as JSON, reproduce the benchmark without credentials, then decide whether the run is worth its cap.</p>
+          <p class="microcopy">The animation is a drawn illustration, not a captured live run. Its 55.7% figure refers to the separate hosted-model benchmark above, not the illustrated local-model route.</p>
           <pre><code>lea route --budget 10cny --json "Add OAuth"
 lea benchmark --json
 lea run --budget 1usd "Ship the change"</code></pre>

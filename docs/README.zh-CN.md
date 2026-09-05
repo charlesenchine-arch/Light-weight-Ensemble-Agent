@@ -4,6 +4,9 @@
   <img src="../assets/lea-demo.gif" alt="LEA 在固定预算内调度规划、本地编程、独立审核与实时打断" width="900">
 </p>
 
+动图为绘制的功能示意，并非真实运行录屏。其中 55.7% 来自下方单独的托管模型目录基准，
+不代表图中本地模型路线的实测节省。
+
 **把钱花在真正需要智能的地方。**
 
 LEA（Light-weight Ensemble Agent）是一个本地编程 Agent。它不会把所有 token
