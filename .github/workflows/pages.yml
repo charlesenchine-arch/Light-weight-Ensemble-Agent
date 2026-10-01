@@ -35,7 +35,7 @@ jobs:
           python scripts/export_site_data.py
           mkdir -p site/assets
           cp assets/lea-demo.gif site/assets/lea-demo.gif
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v4
         with:
           path: site
